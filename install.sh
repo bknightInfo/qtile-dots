@@ -1,0 +1,130 @@
+#!/bin/bash
+
+echo "this script requires wget and curl to be installed"
+
+if ! command -v wget &> /dev/null
+then
+    sudo pacman -S --noconfirm wget
+fi
+if ! command -v curl &> /dev/null
+then
+    sudo pacman -S --noconfirm curl
+fi
+
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+# locations
+SCRIPTS=$HOME/.scripts
+CONFIG=$HOME/.config
+SCREENSHOTS=$HOME/Screenshots
+LOCAL=$HOME/.local
+ICONS=$HOME/.icons
+WALLPAPER=$HOME/.wallpaper
+
+# create all directories
+
+mkdir -p $CONFIG
+mkdir -p $SCRIPTS
+mkdir -p $WALLPAPER
+mkdir -p $SCREENSHOTS
+mkdir -p $LOCAL
+mkdir -p $ICONS
+
+# interactively copy this repo's contents
+
+cp -ri $SCRIPT_DIR/Scripts/* $SCRIPTS
+cp -ri $SCRIPT_DIR/Config/* $CONFIG
+cp -ri $SCRIPT_DIR/Wallpaper/* $WALLPAPER
+cp -ri $SCRIPT_DIR/Screenshots/* $SCREENSHOTS
+cp -ri $SCRIPT_DIR/Local/* $LOCAL
+cp -ri $SCRIPT_DIR/Icons/* $ICONS
+
+# misc stuff
+#cp -i $SCRIPT_DIR/.zshrc ~/.zshrc
+cp -i $SCRIPT_DIR/.aliases ~/.aliases
+cp -i $SCRIPT_DIR/.gtkrc-2.0 ~/.gtkrc-2.0
+
+# copy zsh prompt todo
+#left in to give credit to the-argus
+#mkdir $LOCAL/src/zsh-prompt -p
+#wget https://raw.githubusercontent.com/the-argus/functional-dots/main/.local/src/zsh-prompt/minimal.zsh -O $LOCAL/src/zsh-prompt/minimal.zsh
+
+echo "INSTALLING PARU"
+git clone https://aur.archlinux.org/paru-bin.git
+cd $SCRIPT_DIR/paru-bin
+makepkg -si
+cd $SCRIPT_DIR
+rm -rf $SCRIPT_DIR/paru-bin
+
+# install all my packages
+echo "INSTALLING ALL SOFTWARE"
+sudo pacman -S $(cat paclist)
+yay -S $(cat yaylist)
+
+echo "INSTALLING ROSE-PINE-GTK"
+wget https://github.com/rose-pine/gtk/releases/download/v2.0.0/AllRosePineThemesGTK.tar.gz
+wget https://github.com/rose-pine/gtk/releases/download/v2.0.0/AllRosePineThemesIcons.tar.gz
+
+tar xf AllRosePineThemesGTK.tar.gz
+tar xf AllRosePineThemesIcons.tar.gz
+rm AllRosePineThemesGTK.tar.gz
+rm AllRosePineThemesIcons.tar.gz
+
+sudo cp -r AllRosePineThemesGTK/rose-pine-gtk /usr/share/themes
+sudo cp -r AllRosePineThemesIcons/rose-pine-icons /usr/share/icons
+
+rm -rf AllRosePineThemesGTK
+rm -rf AllRosePineThemesIcons
+
+#TODO: not working need to investigate
+#echo "STARTING FIREFOX AND CUSTOMIZING PROFILE"
+
+#echo ">> launching firefox without gui..."
+#firefox --headless &
+#FIREFOX_PID = $!
+#echo ">> sleeping to wait for process..."
+#sleep 5
+#echo ">> downloading arkenfox user.js..."
+#git clone https://github.com/arkenfox/user.js $SCRIPT_DIR/userjs
+#echo ">> installing arkenfox user.js..."
+#FDIR=~/.mozilla/firefox/*default-release*/
+#cp -r $SCRIPT_DIR/userjs/* $FDIR
+#rm -rf $SCRIPT_DIR/userjs
+#echo ">> installing my user overrides..."
+#cp $SCRIPT_DIR/Extra/Firefox/user-overrides.js $FDIR
+#echo ">> appending user settings..."
+#$FDIR/updater.sh
+#echo ">> installing rose pine userchrome..."
+#cp -r $SCRIPT_DIR/Extra/Firefox/chrome $FDIR
+#kill $FIREFOX_PID
+
+echo ">> installing spicetify..."
+sudo chmod a+wr /opt/spotify
+sudo chmod a+wr /opt/spotify/Apps -R
+
+spicetify backup
+BACK=$(pwd)
+SC="$(dirname "$(spicetify -c)")"
+cd $SC
+cd CustomApps
+echo ">> installing spicetify marketplace"
+git clone https://github.com/spicetify/spicetify-marketplace
+spicetify config custom_apps spicetify-marketplace
+cd ../Themes
+git clone https://github.com/spicetify/spicetify-themes
+cp spicetify-themes/* . -r
+rmdir spicetify-themes
+cd $BACK
+echo ">> installing dribbblish theme for spotify"
+$SCRIPT_DIR/Scripts/spicetify/dribbblish/install.sh
+
+echo ">> setting zathura and md2pdf as default markdown viewer"
+xdg-mime default markdown.desktop text/markdown
+
+# reminder
+echo 'reminders for myself:
+
+- install ssh keys, set directory to chmod 700, private key to 600, and
+  pub key to 644
+'
