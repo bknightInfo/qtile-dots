@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #enable polkit
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+/usr/bin/po
 
 # enable dunst
 killall -SIGUSR2 dunst
@@ -26,6 +26,8 @@ xclip &
 
 # start picom
 picom --config ~/.config/qtile/config/picom.conf &
+
+
 
 # qtile-specific configurations
 ALACRITTY=$HOME/.config/alacritty/alacritty.yml
