@@ -18,6 +18,7 @@ blueman-applet &
 nm-applet &
 xfce4-clipman &
 numlockx &
+volumeicon &
 
 xsuspender &
 xmousepasteblock &
