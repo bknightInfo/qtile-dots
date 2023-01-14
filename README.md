@@ -1,3 +1,3 @@
 # qtile-dots
 
-My Qtile dots with information from "the-angus" and DT qtile configurations
+My Qtile dots with based apon "the-angus" and DT qtile configurations
