@@ -35,8 +35,11 @@ cp -ri $SCRIPT_DIR/Icons/* $ICONS
 cp -i $SCRIPT_DIR/.aliases ~/.aliases
 cp -i $SCRIPT_DIR/.gtkrc-2.0 ~/.gtkrc-2.0
 
+#change sddm background
+sudo cp -i background.jpg /usr/share/sddm/themes/archlinux/
+
 #zshrc base file
-cp .zshrc ~
+cp .zshrc ~/.zshrc
 
 echo "INSTALLING PARU"
 git clone https://aur.archlinux.org/paru-bin.git
@@ -45,10 +48,16 @@ makepkg -si
 cd $SCRIPT_DIR
 rm -rf $SCRIPT_DIR/paru-bin
 
+#remove lightdm
+sudo pacman -R lightdm lightdm-gtk-greeter
+
 # install all my packages
 echo "INSTALLING ALL SOFTWARE"
 sudo pacman -S --noconfirm $(cat paclist)
 paru -S --noconfirm  $(cat yaylist)
+
+#SDDM service
+sudo systemctl enable sddm
 
 echo "INSTALLING ROSE-PINE-GTK"
 wget https://github.com/rose-pine/gtk/releases/download/v2.0.0/AllRosePineThemesGTK.tar.gz
@@ -69,6 +78,19 @@ echo ">> installing spicetify..."
 sudo chmod a+wr /opt/spotify
 sudo chmod a+wr /opt/spotify/Apps -R
 
+# installing psutil for qtile widgets
+sudo pip install psutil
+
+#converts to zsh
+chsh -s $(which zsh)
+
+#create theme link for sddm
+echo "[Theme]" | sudo tee /etc/sddm.conf
+echo "Current=archlinux" | sudo tee -a /etc/sddm.conf
+sudo chmod 644 /etc/sddm.conf
+sudo chown root /etc/sddm.conf
+
+#not working
 #spicetify backup
 #BACK=$(pwd)
 #SC="$(dirname "$(spicetify -c)")"
@@ -85,8 +107,3 @@ sudo chmod a+wr /opt/spotify/Apps -R
 #echo ">> installing dribbblish theme for spotify"
 #$SCRIPT_DIR/Scripts/spicetify/dribbblish/install.sh
 
-# installing psutil for qtile widgets
-pip install psutil
-
-#converts to zsh
-chsh -s $(which zsh)
