@@ -35,9 +35,6 @@ cp -ri $SCRIPT_DIR/Icons/* $ICONS
 cp -i $SCRIPT_DIR/.aliases ~/.aliases
 cp -i $SCRIPT_DIR/.gtkrc-2.0 ~/.gtkrc-2.0
 
-#change sddm background
-sudo cp -i background.jpg /usr/share/sddm/themes/archlinux/
-
 #zshrc base file
 cp .zshrc ~/.zshrc
 
@@ -58,6 +55,9 @@ paru -S --noconfirm  $(cat yaylist)
 
 #SDDM service
 sudo systemctl enable sddm
+
+#change SDDM background
+sudo cp -i background.jpg /usr/share/sddm/themes/archlinux/
 
 echo "INSTALLING ROSE-PINE-GTK"
 wget https://github.com/rose-pine/gtk/releases/download/v2.0.0/AllRosePineThemesGTK.tar.gz
