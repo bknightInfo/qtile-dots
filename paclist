@@ -1,4 +1,3 @@
-alacritty
 bluez 
 bluez-utils 
 capitaine-cursors
@@ -10,7 +9,6 @@ gvfs
 gvfs-smb 
 fzf
 inetutils 
-lightdm-gtk-greeter
 lxappearance
 firefox
 flameshot
@@ -26,7 +24,9 @@ noto-fonts-cjk
 noto-fonts-emoji
 noto-fonts-extra
 ttf-firacode-nerd
+ttf-jetbrains-mono
 pavucontrol
+python-pip
 nss-mdns
 nfs-utils  
 ntfs-3g 
@@ -36,6 +36,7 @@ polkit-gnome
 qtile
 ranger
 rofi
+starship
 sxiv
 thunar 
 thunar-archive-plugin 
@@ -45,7 +46,6 @@ vlc
 xarchiver 
 xclip
 xdg-user-dirs
-xf86-video-amdgpu
 xfce4-clipman-plugin
 xfce4-power-manager
 zsh

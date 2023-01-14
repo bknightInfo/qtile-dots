@@ -80,12 +80,10 @@ logo_image = [ widget.Image, {
 ]
 
 logo = [widget.TextBox, {
-                # text="  ",
                 "font" : font["clear"]["family"],
                 "padding" : -2,
                 "fontsize" : font["clear"]["fontsize"]*1.6,
                 "text": " ",
-                #"text": " Σ",
                 "background": colors["magenta"],
                 "foreground": colors["bg"],
                 "mouse_callbacks":{
@@ -102,21 +100,10 @@ cpu = [widget.CPU, {
             }
         ]
 
-disk = [widget.DF, {
-                **fontinfo,
-                "partition": "/",
-                "warn_color": colors["red"],
-                "warn_space":40,
-                "visible_on_warn": False,
-                "measure":"G",
-                "format":"DISK: ({uf}{m}|{r:.0f}%)",
-            }
-        ]
-
 net = [widget.Net, {
                 **fontinfo,
                 "format": "\u2193 {down} \u2191 {up}",
-                "interface": "wlp0s20f3",
+                "interface": "enp42s0",
                 "update_interval": 3,
                 "background": colors["pink"]
             }
@@ -130,22 +117,18 @@ mem = [widget.Memory, {
             }
         ]
 
-batt = [widget.Battery, {
-                **fontinfo,
+updates = [widget.CheckUpdates, {
+                "update_interval": 1800,
+                "distro ": "Arch_checkupdates",
+                "display_format": " {updates} Updates ",
                 "background": colors["magenta"],
                 "foreground": colors["bg"],
-                "low_foreground": colors["red"],
-                "low_background": None,
-                "low_percentage": 0.30,
-                "charge_char": "",
-                "discharge_char": "",
-                "full_char": "",
-                "empty_char": "X",
-                "unknown_char": "?",
-                "format": "  {char} {percent:2.0%}",
-                "show_short_text": False,
+                "fontsize": 14,
+                "colour_have_updates": colors['black'],
+                "colour_no_updates": colors['blue'],
+                "mouse_callbacks": {'Button1': lambda: qtile.cmd_spawn('alacritty -e sudo pacman -Syu')}, 
             }
-        ]
+          ]        
 
 layout = [widget.CurrentLayout, {
                 **fontinfo,
@@ -175,11 +158,9 @@ def widgetlist():
         windowname,
         systray,
         cpu,
-        batt,
-#        disk,
-#        net,
+        updates,
+        net,
         mem,
-#        batt,
         layout,
         date,
         time,
@@ -198,9 +179,6 @@ def style(widgetlist):
         }
 
         if index < len(widgetlist)-1:
-            #end_sep["background"]=widgetlist[index+1][1].get("background", DEFAULT_BG)
-            #end_sep["foreground"]=wid[1].get("background", DEFAULT_BG)
-
             end_sep["foreground"]=widgetlist[index+1][1].get("background", DEFAULT_BG)
             end_sep["background"]=wid[1].get("background", DEFAULT_BG)
             if wid[1].get("is_spacer") and wid[1].get("inheirit"):

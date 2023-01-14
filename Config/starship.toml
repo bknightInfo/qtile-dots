@@ -1,7 +1,97 @@
+add_newline = false
+
+# this is a multi-line prompt; I experimented with it but never liked it enough to want to keep it
+format = '''
+[╭────](fg:#6272a4)[◖](blue)$cmd_duration$status$jobs[▮](blue)$username$hostname
+[╰](fg:#6272a4)[▮](blue)$directory$shlvl$character[◗](blue) '''
+
+#format = "[◖](blue)$status$jobs$cmd_duration$username$hostname[▮](blue)$directory$shlvl$character[◗](blue) "
+#right_format = """[(◖$git_status$git_branch)](blue)$git_commit"""
+
+
 [character]
-success_symbol = "[](bold green)"
-error_symbol = "[](bold red)"
-vicmd_symbol = "[](bold blue)"
+format = "$symbol"
+success_symbol = "[▮](green)"
+error_symbol = "[▮](red)"
+vicmd_symbol = "[▯](fg:#ff79c6)"  # orange
+
+[username]  # only shows if we are in ssh
+style_user = "fg:#ff79c6"
+style_root = "red"
+format = "[▮](blue)[$user]($style)"
+show_always = false
+
+[hostname]
+ssh_only = true
+trim_at = "."
+style = "fg:#ff79c6"
+format = "[@](blue)[$hostname]($style)"
 
 [directory]
-home_symbol = "$HOME"
+truncation_length = 4
+truncate_to_repo = false
+style = "yellow"
+read_only = " 🔒"
+read_only_style = "fg:#ffb86c"
+truncation_symbol = "⋯"
+home_symbol = "~"
+format = "[$path]($style)[$read_only]($read_only_style)"
+
+[status]
+style = "red"
+symbol = "◩"
+signal_symbol = "↯"
+not_found_symbol = "∅"
+not_executable_symbol = "⇏"
+sigint_symbol = "⤓"
+success_symbol = "[◼](green)"
+map_symbol = true
+format = "[$symbol$maybe_int]($style)"
+disabled = false
+
+[jobs]
+symbol_threshold = 1
+number_threshold = 2
+symbol = "[⊙](fg:#ffb86c)"
+style = "fg:ffb86c"
+format = """[▮](blue)$symbol[$number]($style)"""
+
+[cmd_duration]
+min_time = 5_000
+show_milliseconds = false
+style = "bold yellow"
+min_time_to_notify = 60_000
+show_notifications = false
+format = "[▮](blue)[⟦δt:](fg:#6272a4) [$duration]($style)[⟧](fg:#6272a4)"
+
+[shlvl]
+threshold = 2
+symbol = "[↕](fg:#ff79c6)"
+style = "bold fg:#ff79c6"
+format = "[$symbol$shlvl]($style)"
+disabled = false
+
+[git_status]
+ahead = "⇡${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+behind = "⇣${count}"
+modified = "[◨](fg:#ffb86c)"
+staged = '[+\($count\)](yellow)'
+untracked = "▨"
+up_to_date = "[✓](green)"
+style = "fg:#ffb86c"
+format = "[$all_status]($style)"
+
+[git_branch]
+symbol = ""
+truncation_length = 12
+truncation_symbol = "⋯"
+only_attached = false
+style = "purple"
+format = "[▮](blue)[$symbol$branch]($style)"
+
+[git_commit]
+commit_hash_length = 6
+tag_symbol = "⏢"
+only_detached = false
+format = "[▮](blue)[$hash$tag](cyan)"

@@ -27,11 +27,12 @@
 from typing import List  # noqa: F401
 import os
 import subprocess
+import re
 
 from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
-#from libqtile.utils import guess_terminal
+from libqtile.utils import logger
 
 from color import colors
 from font import font
@@ -39,7 +40,6 @@ from layouts import custom_layouts, floating
 from bar import my_bar
 
 mod = "mod4"
-#terminal = guess_terminal()
 terminal = "alacritty"
 
 float_types = [
@@ -55,22 +55,23 @@ float_names = [
         ]
 
 #@hook.subscribe.client_new
-#def float_to_front(qtile):
-#    """
-#    Bring all floating windows of the group to front
-#    """
-#    for window in qtile.currentGroup.windows:
-#        if window.floating:
-#            window.cmd_bring_to_front()
 
-@hook.subscribe.client_new
-def browser(c):
-    if c.window.get_wm_class() == ('chromium', 'Chromium'):
-       c.togroup(c.qtile.current_group.name)
+#def browser(c):
+#    if c.window.get_wm_class() == ('firefox', 'Firefox'):
+#       c.togroup(c.qtile.current_group.name)
 
 @hook.subscribe.float_change
 @hook.subscribe.client_new
 @hook.subscribe.client_focus
+def client_new(client):
+    #logger.warning(client)
+    if client_check('firefox', client):
+        client.togroup("2")
+
+def client_check(new_window, client):
+    check = bool(re.search(new_window, client.name, re.IGNORECASE))
+    return check
+
 def set_hint(window):
     window.window.set_property("QTILE_FLOATING", str(window.floating), type="STRING", format=8)
 
@@ -157,43 +158,16 @@ keys = [
 #        desc="Spawn a command using a prompt widget"),
 ]
 
-#groups = [ Group(f"{i+1}", label="♥") for i in range(5)]
-#groups = [ Group(f"{i+1}", label="") for i in range(5)]
-
-#  groups = [
-    #  Group("1", label=""),
-    #  Group("2", label=""),
-    #  Group("3", label=""),
-    #  #  Group(
-        #  #  "3",
-        #  #  label="",
-        #  #  matches=[
-            #  #  Match(wm_class=["zoom"]),
-        #  #  ],
-    #  #  ),
-    #  Group("4", label=""),
-    #  Group("5", label="")
-#  ]
-
 groups = [
-    Group("1", label="", spawn="firefox-developer-edition"),
-    Group("2", label=""),
-    Group("3", label=""),
-    Group("4", label=""),
-    Group("5", label=""),
-    Group("6", label=""),
-    Group("7", label=""),
-    Group("8", label="﵂"),
-    Group(
-        "9",
-        label="",
-        matches=[
-            Match(wm_class=["zoom"]),
-        ],
-    ),
-    Group("0", label=""),
+    Group("1", label=""), #Terminals
+    Group("2", label=""), #Web Broswer
+    Group("3", label=""), #File Manager
+    Group("4", label=""), #Text Editor
+    Group("5", label=""), #Media
+    Group("6", label=""), #Music
+    Group("7", label=""), #Development
+    Group("8", label="漣"), #Settings
 ]
-
 
 for i in groups:
     keys.extend([
