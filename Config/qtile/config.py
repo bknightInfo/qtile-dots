@@ -24,7 +24,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from typing import List  # noqa: F401
+from typing import List 
 import os
 import subprocess
 import re
@@ -54,20 +54,23 @@ float_names = [
         "Steam Guard - Computer Authorization Required"
         ]
 
-#@hook.subscribe.client_new
-
-#def browser(c):
-#    if c.window.get_wm_class() == ('firefox', 'Firefox'):
-#       c.togroup(c.qtile.current_group.name)
-
 @hook.subscribe.float_change
 @hook.subscribe.client_new
 @hook.subscribe.client_focus
 def client_new(client):
-    #logger.warning(client)
+    #logger.warning(client) #output client to qtile.log
     if client_check('firefox', client):
         client.togroup("2")
-
+    elif client_check('geany', client):
+        client.togroup("7")
+    elif client_check('GitHub Desktop', client):
+        client.togroup("7")    
+        
+#def browser(c):
+#    if c.window.get_wm_class() == ('firefox', 'Firefox'):
+#       c.togroup(c.qtile.current_group.name)        
+       
+#checks if the name of application is correct        
 def client_check(new_window, client):
     check = bool(re.search(new_window, client.name, re.IGNORECASE))
     return check
@@ -75,16 +78,15 @@ def client_check(new_window, client):
 def set_hint(window):
     window.window.set_property("QTILE_FLOATING", str(window.floating), type="STRING", format=8)
 
-@hook.subscribe.startup_once
-def autostart():
-    home = os.path.expanduser('~/.config/qtile/autostart.sh')
-    subprocess.run([home])
-
-@hook.subscribe.client_new
 def dialogs(window):
     """Floating dialog"""
     if window.name in float_names or window.window.get_wm_type() in float_types or window.window.get_wm_transient_for():
         window.floating = True
+
+@hook.subscribe.startup_once
+def autostart():
+    home = os.path.expanduser('~/.config/qtile/autostart.sh')
+    subprocess.run([home])
 
 keys = [
     # A list of available commands that can be bound to keys can be found

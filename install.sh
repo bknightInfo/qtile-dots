@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#install post running archinstall with qtile desktop
+#Post archinstall with qtile desktop
 #
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
@@ -12,15 +12,19 @@ SCREENSHOTS=$HOME/Screenshots
 LOCAL=$HOME/.local
 ICONS=$HOME/.icons
 WALLPAPER=$HOME/.wallpaper
+THEMES=$HOME/.themes
+
 
 # create all directories
 
-mkdir -p $CONFIG
-mkdir -p $SCRIPTS
-mkdir -p $WALLPAPER
-mkdir -p $SCREENSHOTS
-mkdir -p $LOCAL
-mkdir -p $ICONS
+[ -d $CONFIG ] && echo "Directory Exists" || mkdir -p $CONFIG
+[ -d $SCRIPTS ] && echo "Directory Exists" || mkdir -p $SCRIPTS
+[ -d $WALLPAPER ] && echo "Directory Exists" || mkdir -p $WALLPAPER
+[ -d $SCREENSHOTS ] && echo "Directory Exists" || mkdir -p $SCREENSHOTS
+[ -d $LOCAL ] && echo "Directory Exists" || mkdir -p $LOCAL
+[ -d $ICONS ] && echo "Directory Exists" || mkdir -p $ICONS
+[ -d $THEMES ] && echo "Directory Exists" || mkdir -p ~/.themes
+
 
 # interactively copy this repo's contents
 
@@ -46,6 +50,7 @@ cd $SCRIPT_DIR
 rm -rf $SCRIPT_DIR/paru-bin
 
 #remove lightdm
+sudo systemctl disable lightdm
 sudo pacman -R lightdm lightdm-gtk-greeter
 
 # install all my packages
@@ -59,24 +64,22 @@ sudo systemctl enable sddm
 #change SDDM background
 sudo cp -i background.jpg /usr/share/sddm/themes/archlinux/
 
-echo "INSTALLING ROSE-PINE-GTK"
-wget https://github.com/rose-pine/gtk/releases/download/v2.0.0/AllRosePineThemesGTK.tar.gz
-wget https://github.com/rose-pine/gtk/releases/download/v2.0.0/AllRosePineThemesIcons.tar.gz
+git clone --depth=1 https://github.com/decaycs/decay-gtk
+cd decay-gtk
+cp -r ./Themes/Dark-decay ~/.themes
+cp -r ./Themes/Decayce ~/.themes
 
-tar xf AllRosePineThemesGTK.tar.gz
-tar xf AllRosePineThemesIcons.tar.gz
-rm AllRosePineThemesGTK.tar.gz
-rm AllRosePineThemesIcons.tar.gz
-
-sudo cp -r AllRosePineThemesGTK/rose-pine-gtk /usr/share/themes
-sudo cp -r AllRosePineThemesIcons/rose-pine-icons /usr/share/icons
-
-rm -rf AllRosePineThemesGTK
-rm -rf AllRosePineThemesIcons
 
 echo ">> installing spicetify..."
 sudo chmod a+wr /opt/spotify
 sudo chmod a+wr /opt/spotify/Apps -R
+
+#geany themes
+https://github.com/codebrainz/geany-themes.git
+cd geany-themes
+./install.sh
+cd ..
+rm -rf geany-themes
 
 # installing psutil for qtile widgets
 sudo pip install psutil

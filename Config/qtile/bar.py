@@ -54,9 +54,8 @@ windowname = [widget.WindowName, {
         ]
 
 systray = [widget.Systray, {
-        "background": colors["orange"],
+        "background": colors["grey"],
         "foreground": colors["black"],
-        "theme_path": "rose-pine-gtk",
         }
     ]
 
@@ -72,7 +71,8 @@ spacer_small = [ widget.Spacer, {
 logo_image = [ widget.Image, {
         "background": colors["magenta"],
         "margin" : 3,
-        "filename" : "~/.config/qtile/icon/artixlinux-logo-flat.png",
+     #   "filename" : "~/.config/qtile/icon/artixlinux-logo-flat.png",
+		"filename" : "~/.config/qtile/icon/archlinux-logo-flat.png",
         "mouse_callbacks":{
             "Button1": lazy.spawn("sh " + os.path.expanduser("~/.scripts/rofi-launchpad.sh"))
         },
@@ -84,13 +84,13 @@ logo = [widget.TextBox, {
                 "padding" : -2,
                 "fontsize" : font["clear"]["fontsize"]*1.6,
                 "text": " ",
-                "background": colors["magenta"],
+                "background": colors["blue"],
                 "foreground": colors["bg"],
                 "mouse_callbacks":{
                     "Button1": lazy.spawn("sh " + os.path.expanduser("~/.scripts/rofi-launchpad.sh")) 
                 },
             }
-        ]
+        ]                  
 
 cpu = [widget.CPU, {
                 **fontinfo,
@@ -99,13 +99,26 @@ cpu = [widget.CPU, {
                 "foreground": colors["bg"]
             }
         ]
+        
+
+weather = [widget.OpenWeather, {
+                **fontinfo,
+                "cityid": 2169698,
+                "format": "{icon} {main_temp} °{units_temperature} {weather_details} ",
+                "metric": True,
+                "background": colors["blue"],
+                "foreground": colors["bg"],
+                "mouse_callbacks":{"Button1": lambda: qtile.cmd_spawn('firefox https://openweathermap.org/city/2169698')},
+            }
+        ]
+ 
 
 net = [widget.Net, {
                 **fontinfo,
                 "format": "\u2193 {down} \u2191 {up}",
                 "interface": "enp42s0",
                 "update_interval": 3,
-                "background": colors["pink"]
+                "background": colors["grey"]
             }
         ]
 
@@ -114,16 +127,17 @@ mem = [widget.Memory, {
                 "format": ": {MemUsed:.2f}/{MemTotal:.2f}{mm}",
                 "update_interval": 1.0,
                 "measure_mem": "G",
+                "mouse_callbacks": {'Button1': lambda: qtile.cmd_spawn('alacritty -e htop')}, 
             }
         ]
 
 updates = [widget.CheckUpdates, {
+				**fontinfo,
                 "update_interval": 1800,
                 "distro ": "Arch_checkupdates",
                 "display_format": " {updates} Updates ",
                 "background": colors["magenta"],
                 "foreground": colors["bg"],
-                "fontsize": 14,
                 "colour_have_updates": colors['black'],
                 "colour_no_updates": colors['blue'],
                 "mouse_callbacks": {'Button1': lambda: qtile.cmd_spawn('alacritty -e sudo pacman -Syu')}, 
@@ -132,20 +146,20 @@ updates = [widget.CheckUpdates, {
 
 layout = [widget.CurrentLayout, {
                 **fontinfo,
-                "background": colors["pink"]
+                "background": colors["grey"]
             }
         ]
 
 date = [widget.Clock, {
                 **fontinfo,
-                "format": '%m/%d/%Y',
-                "background": colors["orange"]
+                "format": ' %m/%d/%Y',
+                "background": colors["grey"]
             }
         ]
 
 time = [widget.Clock, {
                 **fontinfo,
-                "format": '%I:%M %p ',
+                "format": ' %I:%M %p ',
                 "background": colors["fg_gutter"]
             }
         ]
@@ -157,11 +171,12 @@ def widgetlist():
         groupbox,
         windowname,
         systray,
-        cpu,
+     #   cpu,
         updates,
         net,
         mem,
         layout,
+        weather,
         date,
         time,
     ]

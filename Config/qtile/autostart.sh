@@ -23,8 +23,5 @@ xclip &
 # start picom
 picom --config ~/.config/qtile/config/picom.conf &
 
-#causing qtile bar not to load correctly
-#qtile cmd-obj -o widget checkupdates -f eval -a "self.update(self.poll())"
-
 #delay application launch
 ( sleep 20; volumeicon) &

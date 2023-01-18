@@ -3,9 +3,12 @@ cava
 fnm-bin
 exa
 freac
+geany-themes
+geany-nord-theme 
 i3lock-fancy-git
 numlockx
 nerd-fonts-noto-sans-mono
+onlyoffice
 ttf-nerd-fonts-victor-mono
 ttf-comic-mono-git
 picom-jonaburg-fix
@@ -13,7 +16,6 @@ polkit-dumb-agent
 sddm-archlinux-theme-git
 spicetify-cli
 spotify
-sublime-text-4
 ttf-font-icons
 unimatrix-git
 xmousepasteblock-git
