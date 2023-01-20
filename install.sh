@@ -51,12 +51,13 @@ rm -rf $SCRIPT_DIR/paru-bin
 
 #remove lightdm
 sudo systemctl disable lightdm
-sudo pacman -R lightdm lightdm-gtk-greeter
+sudo pacman -R lightdm lightdm-gtk-greeterP
 
 # install all my packages
 echo "INSTALLING ALL SOFTWARE"
 sudo pacman -S --noconfirm $(cat paclist)
 paru -S --noconfirm  $(cat yaylist)
+
 
 #SDDM service
 sudo systemctl enable sddm
@@ -74,13 +75,6 @@ echo ">> installing spicetify..."
 sudo chmod a+wr /opt/spotify
 sudo chmod a+wr /opt/spotify/Apps -R
 
-#geany themes
-https://github.com/codebrainz/geany-themes.git
-cd geany-themes
-./install.sh
-cd ..
-rm -rf geany-themes
-
 # installing psutil for qtile widgets
 sudo pip install psutil
 
@@ -93,20 +87,9 @@ echo "Current=archlinux" | sudo tee -a /etc/sddm.conf
 sudo chmod 644 /etc/sddm.conf
 sudo chown root /etc/sddm.conf
 
-#not working
-#spicetify backup
-#BACK=$(pwd)
-#SC="$(dirname "$(spicetify -c)")"
-#cd $SC
-#cd CustomApps
-#echo ">> installing spicetify marketplace"
-#git clone https://github.com/spicetify/spicetify-marketplace
-#spicetify config custom_apps spicetify-marketplace
-#cd ../Themes
-#git clone https://github.com/spicetify/spicetify-themes
-#cp spicetify-themes/* . -r
-#rmdir spicetify-themes
-#cd $BACK
-#echo ">> installing dribbblish theme for spotify"
-#$SCRIPT_DIR/Scripts/spicetify/dribbblish/install.sh
+sudo chmod a+wr /opt/spotify
+sudo chmod a+wr /opt/spotify/Apps -R
+
+spicetify config current_theme decayce
+spicetify apply
 

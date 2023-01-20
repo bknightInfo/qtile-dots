@@ -50,7 +50,7 @@ alias free="free -mt"
 
 #Pacman for software managment
 alias search='sudo pacman -Qs'
-alias remove='sudo pacman -R'
+alias remove='sudo pacman -Rcns'
 alias install='sudo pacman -S'
 alias linstall='sudo pacman -U '
 alias update='sudo pacman -Syyu'
@@ -60,9 +60,12 @@ alias orphans='sudo pacman -Rns $(pacman -Qtdq)'
 
 #Paru as aur helper - updates everything
 alias pget='paru -S '
-alias prm='paru -Rs '
+alias prm='paru -Rsns '
 alias psr='paru -Ss '
 alias upall='paru -Syyu --noconfirm'
+
+#Yay skipping keys check (use at own risk)
+alias="yay -S --mflags --skipinteg " 
 
 #nano
 alias bashrc='sudo nano ~/.bashrc'
@@ -81,7 +84,7 @@ alias vids='cd ~/Videos'
 alias conf='cd ~/.config'
 alias desk='cd ~/Desktop'
 alias pics='cd ~/Pictures'
-alias dldz='cd ~/Downloads'
+alias dlds='cd ~/Downloads'
 alias docs='cd ~/Documents'
 alias sapps='cd /usr/share/applications'
 alias lapps='cd ~/.local/share/applications'
@@ -131,3 +134,6 @@ alias lapps='cd ~/.local/share/applications'
 
 #Best linux application
 alias matrix="unimatrix"
+
+#qtile fixes
+alias qupdate='qtile cmd-obj -o widget checkupdates -f eval -a "self.update(self.poll())"'

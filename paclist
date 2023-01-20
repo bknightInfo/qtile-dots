@@ -5,8 +5,6 @@ composer
 dnsutils 
 dosfstools 
 dunst
-geany
-geany-plugins
 gvfs 
 gvfs-smb 
 fzf
@@ -25,6 +23,7 @@ noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
 noto-fonts-extra
+pacman-contrib
 ttf-firacode-nerd
 ttf-jetbrains-mono
 pavucontrol
