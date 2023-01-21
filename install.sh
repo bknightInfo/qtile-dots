@@ -101,3 +101,6 @@ mkdir -p ~/.config/nvim/lua/custom
 cp plugins.lua ~/.config/nvim/lua/custom
 mkdir -p ~/.config/nvim/after/plugin
 cp defaults.lua ~/.config/nvim/after/plugin
+
+#spotify arch fix 
+yay -S --mflags --skipinteg --noconfirm spotify
