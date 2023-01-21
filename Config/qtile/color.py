@@ -38,23 +38,24 @@ doomOne = {
     "pink": "#a9a1e1"
 }
 
-#My mix
-doomNord = {
+
+# my version of Decayce 
+Decayce = {
     "bg": "#282a36",
     "fg": "#bbc2cf",
     "fg_gutter": "#4c566a",
     "black": "#3B4252",
     "grey": "#6e6a86",
-    "red": "#ff6c6b",
-    "green": "#98be65",
-    "yellow": "#ecbe7b",
-  #  "blue": "#3071db",
-    "blue": "#81a1c1",  
-    "magenta": "#B48EAD",
-    "cyan": "#555169",
-    "white": "#e0def4",
+    "red": "#dd6777",
+    "green": "#90ceaa",
+    "yellow": "#ecd3a0",
+    "blue": "#86aaec",  
+    "magenta": "#c296eb",
+    "cyan": "#93cee9",
+    "white": "#cbced3",
     "orange": "#da8548",
     "pink": "#a9a1e1"
 }
 
-colors = doomNord
+
+colors = Decayce

@@ -93,3 +93,11 @@ sudo chmod a+wr /opt/spotify/Apps -R
 spicetify config current_theme decayce
 spicetify apply
 
+echo "INSTALLING NEOVIM BASE CONFIG"
+# base install from https://github.com/nvim-lua/kickstart.nvim
+mkdir -p ~/.config/nvim
+cp init.lua ~/.config/nvim
+mkdir -p ~/.config/nvim/lua/custom
+cp plugins.lua ~/.config/nvim/lua/custom
+mkdir -p ~/.config/nvim/after/plugin
+cp defaults.lua ~/.config/nvim/after/plugin

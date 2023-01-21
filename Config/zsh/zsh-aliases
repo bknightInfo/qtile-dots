@@ -135,5 +135,9 @@ alias lapps='cd ~/.local/share/applications'
 #Best linux application
 alias matrix="unimatrix"
 
+#shortcuts for neovim
+alias v="nvim"
+alias vim="nvim"
+
 #qtile fixes
 alias qupdate='qtile cmd-obj -o widget checkupdates -f eval -a "self.update(self.poll())"'
