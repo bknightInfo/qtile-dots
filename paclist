@@ -56,3 +56,6 @@ zsh
 zsh-completions 
 zsh-syntax-highlighting
 volumeicon
+npm 
+fd 
+ripgrep
