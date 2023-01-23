@@ -30,7 +30,7 @@ import subprocess
 import re
 
 from libqtile import bar, layout, widget, hook
-from libqtile.config import Click, Drag, Group, Key, Screen, KeyChord
+from libqtile.config import Click, Drag, Group, Key, Screen
 from libqtile.lazy import lazy
 from libqtile.log_utils import logger
 
@@ -59,16 +59,20 @@ float_names = [
 @hook.subscribe.client_new
 @hook.subscribe.client_focus
 def client_new(client):
-    # logger.warning(client)  # output client to qtile.log
     if client_check('firefox', client) or client_check('brave', client):
         client.togroup("2")  # web browsers
     elif client_check('thunar', client):
         client.togroup("3")
     elif client_check('DesktopEditors', client):
         client.togroup("4")
+    elif client_check('vlc', client):
+        client.togroup("5")
+    elif client_check('Spotify', client):
+        client.togroup("6")
     elif client_check('subl', client) or client_check('GitHub Desktop', client):
         client.togroup("7")  # development
-
+    else:
+        logger.warning(client)  # output client to qtile.log
 
 def client_check(new_window, client):
     check = bool(re.search(new_window, client.name, re.IGNORECASE))
@@ -97,12 +101,10 @@ keys = [
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
 
     # application shortcuts
-    Key([mod, "shift"], "f", lazy.spawn("firefox"),
-        desc="launches web browser in secreen 2"),
-    Key([mod, "shift"], "b", lazy.spawn("brave"),
-        desc="launches web browser in secreen 2"),
-    Key([mod, "shift"], "t", lazy.spawn("thunar"),
-        desc="launches thunar in secreen 3"),
+    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([mod, "shift"], "f", lazy.spawn("firefox"), desc="launches firefox web browser"),
+    Key([mod, "shift"], "b", lazy.spawn("brave"), desc="launches Brave web browser"),
+    Key([mod, "shift"], "t", lazy.spawn("thunar"), desc="launches thunar"),
 
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),

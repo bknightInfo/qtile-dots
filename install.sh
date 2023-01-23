@@ -77,6 +77,9 @@ sudo chmod a+wr /opt/spotify/Apps -R
 
 # installing psutil for qtile widgets
 sudo pip install psutil
+sudo pip install pynvim
+
+sudo npm i -g neovim
 
 #converts to zsh
 chsh -s $(which zsh)
@@ -94,18 +97,13 @@ spicetify config current_theme decayce
 spicetify apply
 
 echo "INSTALLING NEOVIM BASE CONFIG"
-#not need as using Lunavim
-# base install from https://github.com/nvim-lua/kickstart.nvim
-#rm -rf ~/.config/nvim
-#mkdir -p ~/.config/nvim
-#cp init.lua ~/.config/nvim
-#mkdir -p ~/.config/nvim/lua/custom
-#cp plugins.lua ~/.config/nvim/lua/custom
-#mkdir -p ~/.config/nvim/after/plugin
-#cp defaults.lua ~/.config/nvim/after/plugin
-
 LV_BRANCH='release-1.2/neovim-0.8' bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/fc6873809934917b470bff1b072171879899a36b/utils/installer/install.sh)
 lvim +LvimUpdate +q
 
 #spotify arch fix 
 yay -S --mflags --skipinteg --noconfirm spotify
+
+lxappearance
+nitrogen
+
+echo "reboot to complete installation"

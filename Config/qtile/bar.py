@@ -133,7 +133,7 @@ mem = [widget.Memory, {
 
 updates = [widget.CheckUpdates, {
 				**fontinfo,
-                "update_interval": 1800,
+                "update_interval": 1000,
                 "distro ": "Arch_checkupdates",
                 "display_format": " {updates} Updates ",
                 "background": colors["magenta"],
