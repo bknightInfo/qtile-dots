@@ -6,6 +6,8 @@ composer
 dnsutils 
 dosfstools 
 dunst
+gtk-murrine-engine
+gnome-themes-extra
 gvfs 
 gvfs-smb 
 fzf
