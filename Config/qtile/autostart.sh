@@ -8,7 +8,7 @@ killall -SIGUSR2 dunst
 dunst &
 
 #wallpaper
-nitrogen --restore &
+#nitrogen --restore &
 
 blueman-applet &
 nm-applet &

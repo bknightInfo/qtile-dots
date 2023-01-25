@@ -1,13 +1,12 @@
 bluez 
 bluez-utils 
+curl
 ctags
 capitaine-cursors
 composer
 dnsutils 
 dosfstools 
 dunst
-gtk-murrine-engine
-gnome-themes-extra
 gvfs 
 gvfs-smb 
 fzf
@@ -20,7 +19,6 @@ mpc
 mtools
 neofetch
 neovim
-nitrogen
 ncmpcpp
 noto-fonts
 noto-fonts-cjk
@@ -60,5 +58,4 @@ zsh
 zsh-completions 
 zsh-syntax-highlighting
 npm 
-fd 
-ripgrep
+wget

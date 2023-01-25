@@ -28,6 +28,7 @@ from typing import List
 import os
 import subprocess
 import re
+import random
 
 from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Screen
@@ -94,7 +95,6 @@ def dialogs(window):
 def autostart():
     home = os.path.expanduser('~/.config/qtile/autostart.sh')
     subprocess.run([home])
-
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -220,6 +220,8 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
+        wallpaper='~/.wallpaper/241346.jpg',
+        wallpaper_mode='stretch',
         top=my_bar()
     ),
 ]
