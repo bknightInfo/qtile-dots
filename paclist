@@ -11,7 +11,8 @@ geany
 gvfs 
 gvfs-smb 
 fzf
-inetutils 
+inetutils
+lua-language-server
 lxappearance
 firefox
 flameshot

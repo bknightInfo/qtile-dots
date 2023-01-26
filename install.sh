@@ -52,8 +52,7 @@ sudo pacman -R lightdm lightdm-gtk-greeterP
 # install all my packages
 echo "INSTALLING ALL SOFTWARE"
 sudo pacman -S --noconfirm $(cat paclist)
-paru -S --noconfirm  $(cat yaylist)
-
+paru -S --noconfirm $(cat parulist)
 
 #SDDM service
 sudo systemctl enable sddm
