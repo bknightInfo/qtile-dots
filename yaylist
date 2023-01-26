@@ -1,8 +1,11 @@
 brave-bin
 cava
-fnm-bin
 exa
+fnm-bin
 freac
+geany-plugins
+geany-themes
+geany-nord-theme
 github-desktop-bin
 i3lock-fancy-git
 numlockx
@@ -18,4 +21,3 @@ unimatrix-git
 xmousepasteblock-git
 xsuspender-git
 zsh-autocomplete-git
-yay-bin

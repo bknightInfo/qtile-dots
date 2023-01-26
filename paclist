@@ -7,6 +7,7 @@ composer
 dnsutils 
 dosfstools 
 dunst
+geany
 gvfs 
 gvfs-smb 
 fzf

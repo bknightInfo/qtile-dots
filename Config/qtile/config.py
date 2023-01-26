@@ -28,7 +28,6 @@ from typing import List
 import os
 import subprocess
 import re
-import random
 
 from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Screen
@@ -70,7 +69,7 @@ def client_new(client):
         client.togroup("5")
     elif client_check('Spotify', client):
         client.togroup("6")
-    elif client_check('subl', client) or client_check('GitHub Desktop', client):
+    elif client_check('geany', client) or client_check('GitHub Desktop', client):
         client.togroup("7")  # development
     else:
         logger.warning(client)  # output client to qtile.log
@@ -105,6 +104,8 @@ keys = [
     Key([mod, "shift"], "f", lazy.spawn("firefox"), desc="launches firefox web browser"),
     Key([mod, "shift"], "b", lazy.spawn("brave"), desc="launches Brave web browser"),
     Key([mod, "shift"], "t", lazy.spawn("thunar"), desc="launches thunar"),
+    Key([mod, "shift"], "g", lazy.spawn("geany"), desc="launches geany"),
+    Key([mod], "g", lazy.spawn("github-desktop"), desc="launches github desktop"),
 
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -191,7 +192,6 @@ groups = [
     Group("5", label=""),  # Media
     Group("6", label=""),  # Music
     Group("7", label=""),  # Development
-    Group("8", label="漣"),  # Settings
 ]
 
 for i in groups:

@@ -104,12 +104,10 @@ cp -r ./Themes/* ~/.config/spicetify/Themes
 spicetify config current_theme decayce
 spicetify apply
 
-#spotify arch fix 
-#yay -S --mflags --skipinteg --noconfirm spotify
+#Todo:
+# Geany Decayce theme
 
-
-#Setup GTK and wallapaper
+#Setup GTK, Icon and font
 lxappearance
-nitrogen
 
 echo "reboot to complete installation"
