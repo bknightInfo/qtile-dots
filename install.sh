@@ -78,6 +78,7 @@ sudo chmod a+wr /opt/spotify/Apps -R
 # installing psutil for qtile widgets
 sudo pip install psutil
 sudo pip install pynvim
+pip install git+https://github.com/psf/black
 
 sudo npm i -g neovim
 
@@ -102,7 +103,7 @@ spicetify config current_theme decayce
 spicetify apply
 
 #spotify arch fix 
-yay -S --mflags --skipinteg --noconfirm spotify
+#yay -S --mflags --skipinteg --noconfirm spotify
 
 
 #Setup GTK and wallapaper
