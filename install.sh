@@ -54,7 +54,7 @@ echo "INSTALLING ALL SOFTWARE"
 sudo pacman -S --noconfirm $(cat paclist)
 paru -S --noconfirm $(cat parulist)
 
-#SDDM service
+#Services
 sudo systemctl enable sddm
 
 #change SDDM background

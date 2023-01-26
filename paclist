@@ -1,5 +1,5 @@
 bluez 
-bluez-utils 
+bluez-utils
 curl
 ctags
 capitaine-cursors
@@ -26,7 +26,6 @@ noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
 noto-fonts-extra
-pacman-contrib
 ttf-firacode-nerd
 ttf-jetbrains-mono
 pavucontrol
