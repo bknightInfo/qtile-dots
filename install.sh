@@ -9,7 +9,6 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 SCRIPTS=$HOME/.scripts
 CONFIG=$HOME/.config
 SCREENSHOTS=$HOME/Screenshots
-LOCAL=$HOME/.local
 ICONS=$HOME/.icons
 WALLPAPER=$HOME/.wallpaper
 THEMES=$HOME/.themes
@@ -21,7 +20,6 @@ THEMES=$HOME/.themes
 [ -d $SCRIPTS ] && echo "Directory Exists" || mkdir -p $SCRIPTS
 [ -d $WALLPAPER ] && echo "Directory Exists" || mkdir -p $WALLPAPER
 [ -d $SCREENSHOTS ] && echo "Directory Exists" || mkdir -p $SCREENSHOTS
-[ -d $LOCAL ] && echo "Directory Exists" || mkdir -p $LOCAL
 [ -d $ICONS ] && echo "Directory Exists" || mkdir -p $ICONS
 [ -d $THEMES ] && echo "Directory Exists" || mkdir -p ~/.themes
 
@@ -32,7 +30,6 @@ cp -ri $SCRIPT_DIR/Scripts/* $SCRIPTS
 cp -ri $SCRIPT_DIR/Config/* $CONFIG
 cp -ri $SCRIPT_DIR/Wallpaper/* $WALLPAPER
 cp -ri $SCRIPT_DIR/Screenshots/* $SCREENSHOTS
-cp -ri $SCRIPT_DIR/Local/* $LOCAL
 cp -ri $SCRIPT_DIR/Icons/* $ICONS
 
 #zshrc base file
