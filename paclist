@@ -14,6 +14,7 @@ fzf
 inetutils
 lua-language-server
 lxappearance
+fd
 firefox
 flameshot
 mpd
@@ -38,6 +39,7 @@ papirus-icon-theme
 polkit-gnome
 qtile
 ranger
+ripgrep
 rofi
 sddm
 starship
@@ -59,4 +61,3 @@ zsh
 zsh-completions 
 zsh-syntax-highlighting
 npm 
-wget
