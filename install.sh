@@ -70,13 +70,11 @@ sudo chmod a+wr /opt/spotify/Apps -R
 # installing psutil for qtile widgets
 sudo pip install psutil
 sudo pip install pynvim
-pip install git+https://github.com/psf/black
 
 #php coding libraries
 wget -O phpcbf.phar https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
 chmod a+x phpcbf.phar
 sudo mv phpcbf.phar /usr/local/bin/phpcbf
-composer require --dev phpstan/phpstan
 
 sudo npm i -g neovim
 
