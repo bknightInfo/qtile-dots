@@ -21,12 +21,10 @@ mpc
 mtools
 neofetch
 neovim
-ncmpcpp
 noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
 noto-fonts-extra
-ttf-firacode-nerd
 ttf-jetbrains-mono
 pavucontrol
 python-pip
@@ -49,7 +47,6 @@ thunar-archive-plugin
 thunar-media-tags-plugin 
 thunar-volman
 volumeicon
-vlc
 yarn
 xarchiver 
 xclip
