@@ -7,7 +7,6 @@ composer
 dnsutils 
 dosfstools 
 dunst
-geany
 gvfs 
 gvfs-smb 
 fzf
@@ -31,6 +30,7 @@ ttf-firacode-nerd
 ttf-jetbrains-mono
 pavucontrol
 python-pip
+npm
 nss-mdns
 nfs-utils  
 ntfs-3g 
@@ -60,4 +60,3 @@ xfce4-power-manager
 zsh
 zsh-completions 
 zsh-syntax-highlighting
-npm 
