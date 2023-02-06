@@ -16,7 +16,6 @@ lua-language-server
 lxappearance
 fd
 firefox
-flameshot
 mtools
 neofetch
 neovim
@@ -35,7 +34,6 @@ numlockx
 papirus-icon-theme
 polkit-gnome
 qtile
-ranger
 ripgrep
 rofi
 sddm

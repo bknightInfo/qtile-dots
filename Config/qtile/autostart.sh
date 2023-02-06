@@ -7,14 +7,10 @@
 killall -SIGUSR2 dunst
 dunst &
 
-#wallpaper
-#nitrogen --restore &
-
 blueman-applet &
 nm-applet &
 xfce4-clipman &
 numlockx on &
-flameshot &
 
 xsuspender &
 xmousepasteblock &
@@ -24,4 +20,4 @@ xclip &
 picom --config ~/.config/qtile/config/picom.conf &
 
 #delay application launch
-( sleep 20; volumeicon) &
+( sleep 30; volumeicon) &
