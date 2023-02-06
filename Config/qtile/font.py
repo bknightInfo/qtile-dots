@@ -80,4 +80,4 @@ all_comiccode = {
 font = all_jetbrains
 # usually like to have this in a different, fancy font
 # windowname = "VictorMono Nerd Font SemiBold Italic"
-windowname = "JetBrains Italic"
+windowname = "JetBrains Mono Italic"
