@@ -39,11 +39,29 @@ firacode_large = {
     "padding": 3
 }
 
+jetbrains = {
+    "family": "JetBrains Mono",
+    "fontsize": 14,
+    "padding": 0,
+}
+
+jetbrains_large = {
+    "family": "JetBrains Mono",
+    "fontsize": 16,
+    "padding": 0,
+}
+
 # font sets
 all_victormono = {
     "clear": victormono,
     "mono": victormono,
     "secondary": victormono
+}
+
+all_jetbrains = {
+    "clear": jetbrains_large,
+    "mono": jetbrains,
+    "secondary": jetbrains
 }
 
 all_firacode = {
@@ -59,7 +77,7 @@ all_comiccode = {
 }
 
 # selected font set
-font = all_comiccode
+font = all_jetbrains
 # usually like to have this in a different, fancy font
 # windowname = "VictorMono Nerd Font SemiBold Italic"
-windowname = "Comic Code Italic"
+windowname = "JetBrains Italic"
