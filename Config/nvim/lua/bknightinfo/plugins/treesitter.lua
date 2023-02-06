@@ -1,17 +1,18 @@
-local status_ok, configs = pcall(require, "nvim-treesitter.configs")
-if not status_ok then
+-- import nvim-treesitter plugin safely
+local status, treesitter = pcall(require, "nvim-treesitter.configs")
+if not status then
 	return
 end
 
-configs.setup({
-  ensure_installed = { "bash", "c", "javascript", "json", "lua", "python", "typescript", "tsx", "css", "rust", "java", "yaml", "markdown", "markdown_inline","php" }, -- one of "all" or a list of languages
---	ignore_install = { "phpdoc" }, -- List of parsers to ignore installing
+-- configure treesitter
+treesitter.setup({
+	ensure_installed = { "bash", "javascript", "json", "lua", "python", "css", "rust", "yaml", "markdown", "markdown_inline","php" }, -- one of "all" or a list of languages
+	ignore_install = { "phpdoc" }, -- List of parsers to ignore installing
 	highlight = {
-		enable = true, -- false will disable the whole extension
-		disable = { "css" }, -- list of language that will be disabled
-	},
-	autopairs = {
-		enable = true,
+	  enable = true, -- false will disable the whole extension
+	  disable = { "css" }, -- list of language that will be disabled
 	},
 	indent = { enable = true, disable = { "python", "css" } },
+	autotag = { enable = true },
+	auto_install = true,
 })

@@ -1,21 +1,27 @@
-require "bknightinfo.core.options"
-require "bknightinfo.core.keymaps"
-require "bknightinfo.core.colorscheme"
-require "bknightinfo.plugins"
-require "bknightinfo.plugins.cmp"
-require "bknightinfo.plugins.lsp"
-require "bknightinfo.plugins.telescope"
-require "bknightinfo.plugins.gitsigns"
-require "bknightinfo.plugins.treesitter"
-require "bknightinfo.plugins.autopairs"
-require "bknightinfo.plugins.comment"
-require "bknightinfo.plugins.nvim-tree"
-require "bknightinfo.plugins.bufferline"
-require "bknightinfo.plugins.lualine"
-require "bknightinfo.plugins.toggleterm"
-require "bknightinfo.plugins.project"
-require "bknightinfo.plugins.impatient"
-require "bknightinfo.plugins.indentline"
-require "bknightinfo.plugins.alpha"
-require "bknightinfo.plugins.whichkey"
-require "bknightinfo.plugins.autocommands"
+require("bknightinfo.plugins-setup")
+require("bknightinfo.core.options")
+require("bknightinfo.core.keymaps")
+require("bknightinfo.core.colorscheme")
+
+-- plugins
+require("bknightinfo.plugins.alpha")
+require("bknightinfo.plugins.comment")
+require("bknightinfo.plugins.nvim-tree")
+require("bknightinfo.plugins.lualine")
+require("bknightinfo.plugins.telescope")
+require("bknightinfo.plugins.nvim-cmp")
+require("bknightinfo.plugins.autopairs")
+require("bknightinfo.plugins.treesitter")
+require("bknightinfo.plugins.gitsigns")
+require("bknightinfo.plugins.bufferline")
+require("bknightinfo.plugins.indentline")
+require("bknightinfo.plugins.impatient")
+require("bknightinfo.plugins.project")
+require("bknightinfo.plugins.toggleterm")
+
+--lSP
+require("bknightinfo.plugins.lsp.mason")
+require("bknightinfo.plugins.lsp.lspsaga")
+require("bknightinfo.plugins.lsp.lspconfig")
+require("bknightinfo.plugins.lsp.null-ls")
+require("bknightinfo.plugins.whichkey")

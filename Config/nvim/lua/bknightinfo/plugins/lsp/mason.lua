@@ -1,53 +1,48 @@
-local servers = {
-	"sumneko_lua",
-	"cssls",
-	"html",
-	-- "tsserver",
-	"pyright",
-	"bashls",
-	"jsonls",
-	-- "yamlls",
-  "intelephense"
-}
-
-local settings = {
-	ui = {
-		border = "none",
-		icons = {
-			package_installed = "◍",
-			package_pending = "◍",
-			package_uninstalled = "◍",
-		},
-	},
-	log_level = vim.log.levels.INFO,
-	max_concurrent_installers = 4,
-}
-
-require("mason").setup(settings)
-require("mason-lspconfig").setup({
-	ensure_installed = servers,
-	automatic_installation = true,
-})
-
-local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
-if not lspconfig_status_ok then
+-- import mason plugin safely
+local mason_status, mason = pcall(require, "mason")
+if not mason_status then
 	return
 end
 
-local opts = {}
-
-for _, server in pairs(servers) do
-	opts = {
-		on_attach = require("bknightinfo.plugins.lsp.handlers").on_attach,
-		capabilities = require("bknightinfo.plugins.lsp.handlers").capabilities,
-	}
-
-	server = vim.split(server, "@")[1]
-
-	local require_ok, conf_opts = pcall(require, "bknightinfo.plugins.lsp.settings." .. server)
-	if require_ok then
-		opts = vim.tbl_deep_extend("force", conf_opts, opts)
-	end
-
-	lspconfig[server].setup(opts)
+-- import mason-lspconfig plugin safely
+local mason_lspconfig_status, mason_lspconfig = pcall(require, "mason-lspconfig")
+if not mason_lspconfig_status then
+	return
 end
+
+-- import mason-null-ls plugin safely
+local mason_null_ls_status, mason_null_ls = pcall(require, "mason-null-ls")
+if not mason_null_ls_status then
+	return
+end
+
+-- enable mason
+mason.setup()
+
+mason_lspconfig.setup({
+	-- list of servers for mason to install
+	ensure_installed = {
+		"html",
+		"cssls",
+		"tailwindcss",
+		"sumneko_lua",
+		"pyright",
+		"intelephense",
+	},
+	-- auto-install configured servers (with lspconfig)
+	automatic_installation = true, -- not the same as ensure_installed
+})
+
+mason_null_ls.setup({
+	-- list of formatters & linters for mason to install
+	ensure_installed = {
+		"prettier", -- ts/js formatter
+		"stylua", -- lua formatter
+		"phpcsfixer", -- php formatter
+		"black", -- python formatter
+		"phpstan", -- php linter
+		"flake8", -- python linter
+	},
+	-- auto-install configured formatters & linters (with null-ls)
+	automatic_installation = true,
+})

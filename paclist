@@ -7,6 +7,7 @@ composer
 dnsutils 
 dosfstools 
 dunst
+glava
 gvfs 
 gvfs-smb 
 fzf
@@ -16,8 +17,6 @@ lxappearance
 fd
 firefox
 flameshot
-mpd
-mpc
 mtools
 neofetch
 neovim

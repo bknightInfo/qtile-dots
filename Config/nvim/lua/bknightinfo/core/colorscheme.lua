@@ -5,7 +5,7 @@ if not present then
 end
 
 decay.setup({
-  style = 'dark',
+  style = 'decayce',
   nvim_tree = {
     contrast = true, -- or false to disable tree contrast
   },

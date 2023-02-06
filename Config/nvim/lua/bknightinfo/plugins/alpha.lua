@@ -4,6 +4,7 @@ if not status_ok then
 end
 
 local dashboard = require("alpha.themes.dashboard")
+-- Set header
 dashboard.section.header.val = {
 	[[                                                                       ]],
 	[[  ██████   █████                   █████   █████  ███                  ]],
@@ -24,9 +25,8 @@ dashboard.section.buttons.val = {
 	dashboard.button("c", "  Configuration", ":e $MYVIMRC <CR>"),
 	dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
 }
-
 local function footer()
--- NOTE: requires the fortune-mod package to work
+	-- NOTE: requires the fortune-mod package to work
 	-- local handle = io.popen("fortune")
 	-- local fortune = handle:read("*a")
 	-- handle:close()

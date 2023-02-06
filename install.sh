@@ -44,7 +44,7 @@ rm -rf $SCRIPT_DIR/paru-bin
 
 #remove lightdm
 sudo systemctl disable lightdm
-sudo pacman -R lightdm lightdm-gtk-greeterP
+sudo pacman -R lightdm lightdm-gtk-greeter
 
 # install all my packages
 echo "INSTALLING ALL SOFTWARE"
@@ -98,8 +98,6 @@ cp -r ./Themes/* ~/.config/spicetify/Themes
 spicetify config current_theme decayce
 spicetify apply
 
-#Todo:
-# Geany Decayce theme
 
 #Setup GTK, Icon and font
 lxappearance
