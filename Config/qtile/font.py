@@ -77,7 +77,7 @@ all_comiccode = {
 }
 
 # selected font set
-font = all_jetbrains
+font = all_comiccode
 # usually like to have this in a different, fancy font
 # windowname = "VictorMono Nerd Font SemiBold Italic"
-windowname = "JetBrains Mono Italic"
+windowname = "Comic Code Italic"
