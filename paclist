@@ -1,9 +1,7 @@
 bluez 
 bluez-utils
 curl
-ctags
 capitaine-cursors
-composer
 dnsutils 
 dosfstools 
 dunst
@@ -12,9 +10,7 @@ gvfs
 gvfs-smb 
 fzf
 inetutils
-lua-language-server
 lxappearance
-fd
 firefox
 mtools
 neofetch
@@ -26,7 +22,6 @@ noto-fonts-extra
 ttf-jetbrains-mono
 pavucontrol
 python-pip
-npm
 nss-mdns
 nfs-utils  
 ntfs-3g 
@@ -34,7 +29,6 @@ numlockx
 papirus-icon-theme
 polkit-gnome
 qtile
-ripgrep
 rofi
 sddm
 starship
@@ -44,7 +38,6 @@ thunar-archive-plugin
 thunar-media-tags-plugin 
 thunar-volman
 volumeicon
-yarn
 xarchiver 
 xclip
 xsel

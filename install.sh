@@ -69,13 +69,6 @@ sudo chmod a+wr /opt/spotify/Apps -R
 
 # installing psutil for qtile widgets
 sudo pip install psutil
-sudo pip install pynvim
-
-#php coding libraries
-wget -O phpcbf.phar https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
-chmod a+x phpcbf.phar
-sudo mv phpcbf.phar /usr/local/bin/phpcbf
-
 sudo npm i -g neovim
 
 #converts to zsh
@@ -97,6 +90,22 @@ test -d $HOME/.config/spicetify/Themes || mkdir -p $HOME/.config/spicetify/Theme
 cp -r ./Themes/* ~/.config/spicetify/Themes
 spicetify config current_theme decayce
 spicetify apply
+
+read -r -p "Install dev environment? [y/N] " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+    echo "Installing dev library and applications"
+    paru -S $(devpac)
+    
+    #python libraries
+    sudo pip install pynvim black
+
+    #php coding libraries
+    wget -O phpcbf.phar https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
+    chmod a+x phpcbf.phar
+    sudo mv phpcbf.phar /usr/local/bin/phpcbf
+   
+fi
 
 
 #Setup GTK, Icon and font
