@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #enable polkit
-/usr/bin/polkit-dumb-agent &
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 # enable dunst
 killall -SIGUSR2 dunst
