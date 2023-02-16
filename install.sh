@@ -1,8 +1,6 @@
 #!/bin/bash
 
 #Post archinstall with qtile desktop
-#
-
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # locations
@@ -13,9 +11,7 @@ ICONS=$HOME/.icons
 WALLPAPER=$HOME/.wallpaper
 THEMES=$HOME/.themes
 
-
 # create all directories
-
 [ -d $CONFIG ] && echo "Directory Exists" || mkdir -p $CONFIG
 [ -d $SCRIPTS ] && echo "Directory Exists" || mkdir -p $SCRIPTS
 [ -d $WALLPAPER ] && echo "Directory Exists" || mkdir -p $WALLPAPER
@@ -24,8 +20,7 @@ THEMES=$HOME/.themes
 [ -d $THEMES ] && echo "Directory Exists" || mkdir -p ~/.themes
 
 
-# interactively copy this repo's contents
-
+# Copy this config contents
 cp -ri $SCRIPT_DIR/Scripts/* $SCRIPTS
 cp -ri $SCRIPT_DIR/Config/* $CONFIG
 cp -ri $SCRIPT_DIR/Wallpaper/* $WALLPAPER
@@ -42,17 +37,25 @@ makepkg -si
 cd $SCRIPT_DIR
 rm -rf $SCRIPT_DIR/paru-bin
 
-#remove lightdm
-sudo systemctl disable lightdm
-sudo pacman -R lightdm lightdm-gtk-greeter
+#uncomment pacman settings
+sudo sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
+sudo sed -i 's/^#Color/Color/' /etc/pacman.conf
+sudo sed -i '/^ParallelDownloads = .*/a ILoveCandy' /etc/pacman.conf
+
+#update pacman
+sudo pacman -Sy
 
 # install all my packages
 echo "INSTALLING ALL SOFTWARE"
 sudo pacman -S --noconfirm $(cat paclist)
 paru -S --noconfirm $(cat parulist)
 
+echo "Removing unwanted packages from archinstall"
+sudo pacman -Rcns --noconfirm $(cat removepac)
+
 #Services
 sudo systemctl enable sddm
+sudo systemctl disable lightdm
 
 #change SDDM background
 sudo cp -i background.jpg /usr/share/sddm/themes/archlinux/
@@ -61,7 +64,6 @@ git clone --depth=1 https://github.com/decaycs/decay-gtk
 cd decay-gtk
 cp -r ./Themes/Dark-decay ~/.themes
 cp -r ./Themes/Decayce ~/.themes
-
 
 echo ">> installing spicetify..."
 sudo chmod a+wr /opt/spotify
