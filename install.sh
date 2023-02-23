@@ -54,8 +54,12 @@ echo "Removing unwanted packages from archinstall"
 sudo pacman -Rcns --noconfirm $(cat removepac)
 
 #Services
-sudo systemctl enable sddm
 sudo systemctl disable lightdm
+sudo systemctl enable sddm
+
+#remove application during install
+echo "Removing unwanted packages from archinstall"
+sudo pacman -Rcns --noconfirm $(cat removepac)
 
 #change SDDM background
 sudo cp -i background.jpg /usr/share/sddm/themes/archlinux/
@@ -97,7 +101,7 @@ read -r -p "Install dev environment? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
     echo "Installing dev library and applications"
-    paru -S $(devpac)
+    paru -S $(cat devpac)
     
     #python libraries
     sudo pip install pynvim black
@@ -107,6 +111,22 @@ then
     chmod a+x phpcbf.phar
     sudo mv phpcbf.phar /usr/local/bin/phpcbf
    
+fi
+
+read -r -p "Install virtualisation? [y/N] " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+    echo "Installing dev library and applications"
+    sudo pacman -S $(cat qmu)
+    
+    sudo systemctl enable libvirtd.service
+
+    sudo sed -i 's/^#unix_sock_group/unix_sock_group/' /etc/libvirt/libvirtd.conf
+    sudo sed -i 's/^#unix_sock_rw_perms/unix_sock_rw_perms/' /etc/libvirt/libvirtd.conf
+
+    sudo usermod -a -G libvirt $(whoami)
+    newgrp libvirt
+
 fi
 
 
