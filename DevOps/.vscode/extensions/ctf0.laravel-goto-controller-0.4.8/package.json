@@ -1,0 +1,120 @@
+{
+	"name": "laravel-goto-controller",
+	"displayName": "Laravel Goto Controller",
+	"description": "Quick jump to controller",
+	"version": "0.4.8",
+	"publisher": "ctf0",
+	"engines": {
+		"vscode": "^1.68.0"
+	},
+	"repository": "https://github.com/ctf0/laravel-goto-controller",
+	"icon": "images/logo.png",
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"PHP",
+		"Laravel",
+		"goto",
+		"file navigation"
+	],
+	"activationEvents": [
+		"workspaceContains:composer.json",
+		"onLanguage:php",
+		"onLanguage:blade",
+		"workspaceContains:artisan"
+	],
+	"main": "./out/main",
+	"contributes": {
+		"commands": [
+			{
+				"command": "lgc.addAppUrl",
+				"title": "Add App Url",
+				"category": "Laravel GoTo Controller"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Laravel Goto Controller",
+			"properties": {
+				"laravelGotoController.classmap_file": {
+					"type": "string",
+					"default": "vendor/composer/autoload_classmap.php",
+					"description": "the composer classmap file path (from project root)"
+				},
+				"laravelGotoController.routeMethods": {
+					"type": "array",
+					"default": [
+						"route",
+						"tenant_route",
+						"action",
+						"Route::has",
+						"Route::is"
+					],
+					"items": {
+						"type": "string"
+					},
+					"minItems": 1,
+					"uniqueItems": true,
+					"description": "routes methods to match"
+				},
+				"laravelGotoController.ignoreControllers": {
+					"type": "array",
+					"default": [
+						"App\\\\Http\\\\Controllers\\\\Controller"
+					],
+					"items": {
+						"type": "string"
+					},
+					"minItems": 1,
+					"uniqueItems": true,
+					"description": "don't match this controllers classes"
+				},
+				"laravelGotoController.phpCommand": {
+					"type": "string",
+					"default": "php",
+					"description": "the php command path (any quotes needs to be escaped)"
+				},
+				"laravelGotoController.routeListCommand": {
+					"type": "string",
+					"default": "artisan route:list --columns=uri,name,action,method --json",
+					"description": "the route list cmnd (any quotes needs to be escaped)"
+				},
+				"laravelGotoController.dockerVolumePath": {
+					"type": "string",
+					"default": "/var/www/html",
+					"description": "if using docker, this should be the main container volume path (defaults to laravel/sail)"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run esbuild-base -- --pure:console.log --minify",
+		"esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
+		"esbuild": "npm run esbuild-base -- --sourcemap",
+		"esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+		"watch": "npm run esbuild"
+	},
+	"devDependencies": {
+		"@types/node": "^18.14.0",
+		"@types/vscode": "^1.68.0",
+		"esbuild": "^0.17.10",
+		"typescript": "^4.9.5"
+	},
+	"dependencies": {
+		"escape-string-regexp": "^5.0.0",
+		"execa": "^7.0.0",
+		"lodash.debounce": "^4.0.8"
+	},
+	"__metadata": {
+		"id": "2423cc95-39e9-4758-bac0-21d330a64ad5",
+		"publisherId": "83d4da56-3e02-4029-b926-a215a8fd071b",
+		"publisherDisplayName": "ctf0",
+		"targetPlatform": "undefined",
+		"isApplicationScoped": false,
+		"updated": false,
+		"isPreReleaseVersion": false,
+		"installedTimestamp": 1677311204737,
+		"preRelease": false
+	}
+}

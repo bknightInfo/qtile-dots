@@ -1,0 +1,16 @@
+{
+    "external": [
+        "supports-color",
+        "vscode",
+        "pg-native",
+        "aws4",
+        "aws-crt",
+        "@aws-sdk/signature-v4-crt",
+        "officegen",
+        "neo4j-driver",
+        "@database-client/dmdb",
+        "mongodb",
+        "iconv-lite",
+        "xlsx"
+    ]
+}

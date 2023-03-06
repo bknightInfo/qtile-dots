@@ -6,7 +6,6 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 # locations
 SCRIPTS=$HOME/.scripts
 CONFIG=$HOME/.config
-SCREENSHOTS=$HOME/Screenshots
 ICONS=$HOME/.icons
 WALLPAPER=$HOME/.wallpaper
 THEMES=$HOME/.themes
@@ -24,7 +23,6 @@ THEMES=$HOME/.themes
 cp -ri $SCRIPT_DIR/Scripts/* $SCRIPTS
 cp -ri $SCRIPT_DIR/Config/* $CONFIG
 cp -ri $SCRIPT_DIR/Wallpaper/* $WALLPAPER
-cp -ri $SCRIPT_DIR/Screenshots/* $SCREENSHOTS
 cp -ri $SCRIPT_DIR/Icons/* $ICONS
 
 #zshrc base file
@@ -86,6 +84,30 @@ echo "Current=archlinux" | sudo tee -a /etc/sddm.conf
 sudo chmod 644 /etc/sddm.conf
 sudo chown root /etc/sddm.conf
 
+#firefox changes
+echo ">> launching firefox without gui..."
+firefox --headless &
+# store most recently launched programs PID
+FIREFOX_PID=$!
+echo ">> sleeping to wait for process..."
+sleep 5
+echo ">> downloading arkenfox user.js..."
+git clone https://github.com/arkenfox/user.js $SCRIPT_DIR/userjs
+echo ">> installing arkenfox user.js..."
+FDIR=~/.mozilla/firefox/*default-release*/
+cp -r $SCRIPT_DIR/userjs/* $FDIR
+rm -rf $SCRIPT_DIR/userjs
+echo ">> installing my user overrides..."
+cp $SCRIPT_DIR/Firefox/user-overrides.js $FDIR
+echo ">> appending user settings..."
+$FDIR/updater.sh
+echo ">> installing my userchrome..."
+cp -r $SCRIPT_DIR/Firefox/chrome $FDIR
+
+# kill firefox
+kill $FIREFOX_PID
+
+#Spotify
 sudo chmod a+wr /opt/spotify
 sudo chmod a+wr /opt/spotify/Apps -R
 
@@ -110,25 +132,14 @@ then
     wget -O phpcbf.phar https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
     chmod a+x phpcbf.phar
     sudo mv phpcbf.phar /usr/local/bin/phpcbf
-   
-fi
 
-read -r -p "Install virtualisation? [y/N] " response
-if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
-then
-    echo "Installing dev library and applications"
-    sudo pacman -S $(cat qmu)
-    
-    sudo systemctl enable libvirtd.service
+    #install laravel
+    #composer global require "laravel/installer"
+    #composer require barryvdh/laravel-debugbar --dev
 
-    sudo sed -i 's/^#unix_sock_group/unix_sock_group/' /etc/libvirt/libvirtd.conf
-    sudo sed -i 's/^#unix_sock_rw_perms/unix_sock_rw_perms/' /etc/libvirt/libvirtd.conf
-
-    sudo usermod -a -G libvirt $(whoami)
-    newgrp libvirt
+    cp -ri $SCRIPT_DIR/DevOps/* $HOME
 
 fi
-
 
 #Setup GTK, Icon and font
 lxappearance
