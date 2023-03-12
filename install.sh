@@ -122,6 +122,8 @@ spicetify apply
 read -r -p "Install dev environment? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
+
+    cd $SCRIPT_DIR
     echo "Installing dev library and applications"
     paru -S $(cat devpac)
     
@@ -133,11 +135,12 @@ then
     chmod a+x phpcbf.phar
     sudo mv phpcbf.phar /usr/local/bin/phpcbf
 
+    #VSCode settings
+    cp -ri $SCRIPT_DIR/DevOps/* ~
+
     #install laravel
     #composer global require "laravel/installer"
     #composer require barryvdh/laravel-debugbar --dev
-
-    cp -ri $SCRIPT_DIR/DevOps/* $HOME
 
 fi
 

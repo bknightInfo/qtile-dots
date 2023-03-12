@@ -1,4 +1,3 @@
-composer
 ctags
 fd
 github-desktop-bin
@@ -10,4 +9,3 @@ npm
 ripgrep
 nodejs-intelephense
 visual-studio-code-bin
-mariadb
