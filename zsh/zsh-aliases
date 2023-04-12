@@ -1,0 +1,143 @@
+#!/bin/sh
+alias j='z'
+alias f='zi'
+alias g='lazygit'
+alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git' ';' -print0 | xargs -I {} -0 git -C {} pull -q"
+
+# get fastest mirrors
+alias mirror="sudo reflector -c Australia -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
+alias mirrord="sudo reflector -c Australia --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
+alias mirrors="sudo reflector -c Australia --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"
+alias mirrora="sudo reflector -c Australia --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
+
+# Colorize grep output (good for log files)
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# easier to read disk
+alias df='df -h'     # human-readable sizes
+alias free='free -m' # show sizes in MB
+
+# get top process eating memory
+alias psmem='ps auxf | sort -nr -k 4 | head -5'
+
+# get top process eating cpu ##
+alias pscpu='ps auxf | sort -nr -k 3 | head -5'
+
+# gpg encryption
+# verify signature for isos
+alias gpg-check="gpg2 --keyserver-options auto-key-retrieve --verify"
+# receive the key of a developer
+alias gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
+
+# For when keys break
+alias archlinx-fix-keys="sudo pacman-key --init && sudo pacman-key --populate archlinux && sudo pacman-key --refresh-keys"
+
+alias m="git checkout master"
+alias s="git checkout stable"
+alias gc='git clone '
+
+# Package Info
+alias info="sudo pacman -Si "
+alias infox="sudo pacman -Sii "
+
+#pacman unlock
+alias unlock="sudo rm /var/lib/pacman/db.lck"
+
+#available free memory
+alias free="free -mt"
+
+#Pacman for software managment
+alias search='sudo pacman -Qs'
+alias remove='sudo pacman -Rcns'
+alias install='sudo pacman -S'
+alias linstall='sudo pacman -U '
+alias update='sudo pacman -Syyu'
+alias clrcache='sudo pacman -Scc'
+alias updb='paru && sudo pacman -Sy'
+alias orphans='sudo pacman -Rns $(pacman -Qtdq)'
+
+#Paru as aur helper - updates everything
+alias pget='paru -S '
+alias prm='paru -Rsns '
+alias psr='paru -Ss '
+alias upall='paru -Syyu --noconfirm'
+
+#Yay skipping keys check (use at own risk)
+alias="yay -S --mflags --skipinteg " 
+
+#nano
+alias bashrc='sudo nano ~/.bashrc'
+alias nsddm='sudo nano /etc/sddm.conf'
+alias pconf='sudo nano /etc/pacman.conf'
+alias mkpkg='sudo nano /etc/makepkg.conf'
+alias ngrub='sudo nano /etc/default/grub'
+alias smbconf='sudo nano /etc/samba/smb.conf'
+alias nmirrorlist='sudo nano /etc/pacman.d/mirrorlist'
+
+#cd/ aliases
+alias home='cd ~'
+alias etc='cd /etc/'
+alias music='cd ~/Music'
+alias vids='cd ~/Videos'
+alias conf='cd ~/.config'
+alias desk='cd ~/Desktop'
+alias pics='cd ~/Pictures'
+alias dlds='cd ~/Downloads'
+alias docs='cd ~/Documents'
+alias sapps='cd /usr/share/applications'
+alias lapps='cd ~/.local/share/applications'
+
+#Refresh Keys
+alias rkeys='sudo pacman-key --refresh-keys'
+
+# Replace ls with exa
+alias ls='exa -al --color=auto --group-directories-first --icons' # preferred listing
+alias la='exa -a --color=auto --group-directories-first --icons'  # all files and dirs
+alias ll='exa -l --color=auto --group-directories-first --icons'  # long format
+alias lt='exa -aT --color=auto --group-directories-first --icons' # tree listing
+alias l='exa -lah --color=auto --group-directories-first --icons' # tree listing
+
+#grub update
+alias grubupdate='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+
+#Copy/Remove files/dirs
+alias rmd='rm -r'
+alias srm='sudo rm'
+alias srmd='sudo rm -r'
+alias cpd='cp -R'
+alias scp='sudo cp'
+alias scpd='sudo cp -R'
+
+#nano
+alias bashrc='sudo nano ~/.bashrc'
+alias nsddm='sudo nano /etc/sddm.conf'
+alias pconf='sudo nano /etc/pacman.conf'
+alias mkpkg='sudo nano /etc/makepkg.conf'
+alias ngrub='sudo nano /etc/default/grub'
+alias smbconf='sudo nano /etc/samba/smb.conf'
+alias nmirrorlist='sudo nano /etc/pacman.d/mirrorlist'
+
+#cd/ aliases
+alias home='cd ~'
+alias etc='cd /etc/'
+alias music='cd ~/Music'
+alias vids='cd ~/Videos'
+alias conf='cd ~/.config'
+alias desk='cd ~/Desktop'
+alias pics='cd ~/Pictures'
+alias dldz='cd ~/Downloads'
+alias docs='cd ~/Documents'
+alias sapps='cd /usr/share/applications'
+alias lapps='cd ~/.local/share/applications'
+
+#Best linux application
+alias matrix="unimatrix"
+
+#shortcuts for neovim
+alias v="nvim"
+alias vim="nvim"
+
+#qtile fixes
+alias qupdate='qtile cmd-obj -o widget checkupdates -f eval -a "self.update(self.poll())"'

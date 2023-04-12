@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Glava - Music Sequencer
+GenericName=sequencer
+Comment=Music sequencer
+Categories=Utility;
+Keywords=compositor;composite manager;window effects;transparency;opacity;
+TryExec=glava
+Exec=glava
+Icon=multimedia-volume-control
+NoDisplay=false
