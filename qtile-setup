@@ -9,17 +9,11 @@ CWR="[\e[1;35mWARNING\e[0m]"
 CAC="[\e[1;33mACTION\e[0m]"
 INSTLOG="install.log"
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 # locations
 SCRIPTS=$HOME/.scripts
 WALLPAPER=$HOME/.wallpaper
-
-# create all directories
-[ -d $SCRIPTS ] && echo "Directory Exists" || mkdir -p $SCRIPTS &>> $INSTLOG
-[ -d $WALLPAPER ] && echo "Directory Exists" || mkdir -p $WALLPAPER &>> $INSTLOG
-
-# Copy this config contents
-cp -ri Scripts/* $SCRIPTS &>> $INSTLOG
-cp -ri Wallpaper/* $WALLPAPER &>> $INSTLOG
 
 #clear the screen
 clear
@@ -64,6 +58,14 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     # update the DB first
     echo -e "$COK - Updating pacman database..."
     sudo pacman -Syu --noconfirm &>> $INSTLOG
+    
+    # create all directories
+    [ -d $SCRIPTS ] && echo "Directory Exists" || mkdir -p $SCRIPTS &>> $INSTLOG
+    [ -d $WALLPAPER ] && echo "Directory Exists" || mkdir -p $WALLPAPER &>> $INSTLOG
+
+    # Copy this config contents
+    cp -ri Scripts/* $SCRIPTS &>> $INSTLOG
+    cp -ri Wallpaper/* $WALLPAPER &>> $INSTLOG
     
     #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
@@ -196,6 +198,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     sudo pip install psutil &>> $INSTLOG
 
     # Copy the SDDM theme
+    cd $SCRIPT_DIR
     echo -e "$CNT - Setting up the login screen."
     sudo cp -R sdt /usr/share/sddm/themes/
     sudo chown -R $USER:$USER /usr/share/sddm/themes/sdt
@@ -274,7 +277,8 @@ read -n1 -rep $'[\e[1;33mACTION\e[0m] - Install dev environment(php development)
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
     echo -e "\n$CNT - Installing Dev applications, this may take a while..."
-    for SOFTWR in ctags fd github-desktop-bin lua-language-server phpstan prettier stylua npm ripgrep nodejs-intelephense visual-studio-code-bin mariadb nginx net-tools php php-fpm composer phpmyadmin
+    #phpstan removed over gpg key issue
+    for SOFTWR in ctags fd github-desktop-bin lua-language-server prettier stylua npm ripgrep nodejs-intelephense visual-studio-code-bin mariadb nginx net-tools php php-fpm composer phpmyadmin
     do
         #First lets see if the package is there
         if paru -Qs $SOFTWR > /dev/null ; then
