@@ -26,12 +26,6 @@ else
     exit
 fi
 
-echo -e "\n
-$CNT - This script will run some commands that require sudo. You will be prompted to enter your password.
-If you are worried about entering your password then you may want to review the content of the script."
-
-sleep 3
-
 #### Check for paru ####
 ISPARU=/sbin/paru
 if [ -f "$ISPARU" ]; then 
@@ -278,7 +272,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
     echo -e "\n$CNT - Installing Dev applications, this may take a while..."
     #phpstan removed over gpg key issue
-    for SOFTWR in ctags fd github-desktop-bin lua-language-server prettier stylua npm ripgrep nodejs-intelephense visual-studio-code-bin mariadb nginx net-tools php php-fpm composer phpmyadmin
+    for SOFTWR in ctags phpstan fd github-desktop-bin lua-language-server prettier stylua npm ripgrep nodejs-intelephense visual-studio-code-bin mariadb nginx net-tools php php-fpm composer phpmyadmin
     do
         #First lets see if the package is there
         if paru -Qs $SOFTWR > /dev/null ; then
