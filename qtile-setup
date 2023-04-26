@@ -32,19 +32,44 @@ if [ -f "$ISPARU" ]; then
     echo -e "$COK - paru was located, moving on."
 else 
     echo -e "$CWR - paru was NOT located"
-    read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to install paru (y,n) ' INSTYAY
-    if [[ $INSTYAY == "Y" || $INSTYAY == "y" ]]; then
-        git clone https://aur.archlinux.org/paru-bin.git &>> $INSTLOG
-        cd paru-bin
-        makepkg -si --noconfirm &>> ../$INSTLOG
-        cd ..
-        rm -rf paru-bin &>> ../$INSTLOG
-        
-    else
-        echo -e "$CER - Paru is required for this script, now exiting"
-        exit
-    fi
+    git clone https://aur.archlinux.org/paru-bin.git &>> $INSTLOG
+    cd paru-bin
+    makepkg -si --noconfirm &>> ../$INSTLOG
+    cd ..
+    rm -rf paru-bin &>> ../$INSTLOG
 fi
+
+# function that will test for a package and if not found it will attempt to install it
+# $1 - pacman ,paru or yay
+# $2 - software
+install_software() {
+    case $1 in
+        pacman)
+            APP="sudo pacman"
+            ;;
+        paru)
+            APP="paru"
+            ;;
+        yay)
+            APP="yay"
+            ;;
+    esac
+    if $APP -Q $2 &>> /dev/null ; then
+        echo -e "$COK - $2 is already installed."
+    else
+        # no package found so installing
+        echo -e "$CNT - Now installing $2 ..."
+        $APP -S --noconfirm $2 &>> $INSTLOG
+        # test to make sure package installed
+        if $APP -Q $2 &>> /dev/null ; then
+            echo -e "\e[1A\e[K$COK - $2 was installed."
+        else
+            # if this is hit then a package is missing, exit to review log
+            echo -e "\e[1A\e[K$CER - $2 install had failed, please check the install.log"
+            exit
+        fi
+    fi
+}
 
 ### Install all of the above pacakges ####
 read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to install the packages? (y,n) ' INST
@@ -63,96 +88,37 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
     #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
-    for SOFTWR in archlinux-keyring alacritty dunst qtile pacman-contrib xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting rofi lxappearance
+    for SOFTWR in archlinux-keyring alacritty dunst qtile pacman-contrib xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting lxappearance
     do
-        #First lets see if the package is there
-        if pacman -Qs $SOFTWR > /dev/null ; then
-            echo -e "$COK - $SOFTWR is already installed."
-        else
-            echo -e "$CNT - Now installing $SOFTWR ..."
-            sudo pacman -S --noconfirm $SOFTWR &>> $INSTLOG
-            if pacman -Qs $SOFTWR > /dev/null ; then
-                echo -e "$COK - $SOFTWR was installed."
-            else
-                echo -e "$CER - $SOFTWR install had failed, please check the install.log"
-                exit
-            fi
-        fi
+           install_software 'pacman' $SOFTWR 
     done
  
     #Stage 2
     echo -e "\n$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
     for SOFTWR in polkit-gnome python-pip pamixer pavucontrol brightnessctl bluez bluez-utils blueman gvfs thunar-archive-plugin file-roller sddm volumeicon
     do
-        #First lets see if the package is there
-        if pacman -Qs $SOFTWR > /dev/null ; then
-            echo -e "$COK - $SOFTWR is already installed."
-        else
-            echo -e "$CNT - Now installing $SOFTWR ..."
-            sudo pacman -S --noconfirm $SOFTWR &>> $INSTLOG
-            if pacman -Qs $SOFTWR > /dev/null ; then
-                echo -e "$COK - $SOFTWR was installed."
-            else
-                echo -e "$CER - $SOFTWR install had failed, please check the install.log"
-                exit
-            fi
-        fi
+           install_software 'pacman' $SOFTWR 
     done
 
     #Stage 3
     echo -e "\n$CNT - Stage 3 - Installing theme and visual related tools and utilities, this may take a while..."
     for SOFTWR in capitaine-cursors papirus-icon-theme ttf-firacode-nerd ttf-jetbrains-mono ttf-jetbrains-mono-nerd noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
     do
-        #First lets see if the package is there
-        if pacman -Qs $SOFTWR > /dev/null ; then
-            echo -e "$COK - $SOFTWR is already installed."
-        else
-            echo -e "$CNT - Now installing $SOFTWR ..."
-            sudo pacman -S --noconfirm $SOFTWR &>> $INSTLOG
-            if pacman -Qs $SOFTWR > /dev/null ; then
-                echo -e "$COK - $SOFTWR was installed."
-            else
-                echo -e "$CER - $SOFTWR install had failed, please check the install.log"
-                exit
-            fi
-        fi
+           install_software 'pacman' $SOFTWR 
     done
 
     #Stage 4
     echo -e "\n$CNT - Stage 4 - Installing extra applications and utilities, this may take a while..."
-    for SOFTWR in exa firefox fzf glava htop sxiv neofetch neovim starship numlockx xclip xfce4-clipman-plugin xfce4-power-manager
+    for SOFTWR in exa fzf glava htop sxiv neofetch neovim starship numlockx xclip xfce4-clipman-plugin xfce4-power-manager
     do
-        #First lets see if the package is there
-        if pacman -Qs $SOFTWR > /dev/null ; then
-            echo -e "$COK - $SOFTWR is already installed."
-        else
-            echo -e "$CNT - Now installing $SOFTWR ..."
-            sudo pacman -S --noconfirm $SOFTWR &>> $INSTLOG
-            if pacman -Qs $SOFTWR > /dev/null ; then
-                echo -e "$COK - $SOFTWR was installed."
-            else
-                echo -e "$CER - $SOFTWR install had failed, please check the install.log"
-                exit
-            fi
-        fi
+           install_software 'pacman' $SOFTWR 
     done
+
     #Stage 5
     echo -e "\n$CNT - Stage 5 - Installing AUR applications, this may take a while..."
-    for SOFTWR in brave-bin fnm-bin i3lock-fancy-git onlyoffice picom-jonaburg-fix sddm-sugar-candy-git spotify spicetify-cli ttf-font-icons ttf-comic-mono-git unimatrix-git xmousepasteblock-git xsuspender-git zsh-autocomplete-git
+    for SOFTWR in brave-bin rofi fnm-bin picom-jonaburg-fix sddm-sugar-candy-git spotify spicetify-cli ttf-font-icons ttf-comic-mono-git unimatrix-git xmousepasteblock-git xsuspender-git zsh-autocomplete-git
     do
-        #First lets see if the package is there
-        if paru -Qs $SOFTWR > /dev/null ; then
-            echo -e "$COK - $SOFTWR is already installed."
-        else
-            echo -e "$CNT - Now installing $SOFTWR ..."
-            paru -S --noconfirm $SOFTWR &>> $INSTLOG
-            if paru -Qs $SOFTWR > /dev/null ; then
-                echo -e "$COK - $SOFTWR was installed."
-            else
-                echo -e "$CER - $SOFTWR install had failed, please check the install.log"
-                exit
-            fi
-        fi
+           install_software 'paru' $SOFTWR 
     done
 
     # Start the bluetooth service
@@ -165,12 +131,8 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     sudo systemctl disable lightdm &>> $INSTLOG
     sudo systemctl enable sddm &>> $INSTLOG
     sleep 2
-    
-    # Clean remove unwanted files from installer
-    echo -e "$CNT - Cleaning out conflicting xdg portals..."
-    paru -R --noconfirm lightdm lightdm-gtk-greeter &>> $INSTLOG
 
-    fi
+fi
 
 ### Copy Config Files ###
 read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to copy config files? (y,n) ' CFG
@@ -185,8 +147,10 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
             echo -e "$COK - Backed up $DIR to $DIRPATH-back."
         fi
         echo -e "$CNT - Copying $DIR config to $DIRPATH."  
-        cp -R $DIR ~/.config/ &>> $INSTLOG
     done
+
+    #copy config files
+    cp -R $SCRIPT_DIR/config/* ~/.config/ &>> $INSTLOG
 
     # installing psutil for qtile widgets
     sudo pip install psutil &>> $INSTLOG
@@ -206,7 +170,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 
     #copy zsh core file
     chsh -s $(which zsh)
-    cp extras/.zsh ~/
+    cp $SCRIPT_DIR/extras/.zshrc ~/
 
     #setup the first look and feel as dark
     git clone --depth=1 https://github.com/decaycs/decay-gtk
@@ -218,16 +182,18 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     sudo chmod a+wr /opt/spotify &>> $INSTLOG
     sudo chmod a+wr /opt/spotify/Apps -R &>> $INSTLOG
 
+    cd $SCRIPT_DIR
     git clone --depth=1 https://github.com/decaycs/decay-spicetify.git  &>> $INSTLOG
     test -d $HOME/.config/spicetify/Themes || mkdir -p $HOME/.config/spicetify/Themes  &>> $INSTLOG
     cp -r decay-spicetify/Themes/* ~/.config/spicetify/Themes &>> $INSTLOG
     spicetify config current_theme decayce &>> $INSTLOG
     spicetify apply &>> $INSTLOG
+    cd $SCRIPT_DIR
     rm -rf decay-spicetify &>> $INSTLOG
 
     #move custom .desktop files for rofi
     mkdir ~/.local/share/applications
-    cp -r extras/*.desktop ~/.local/share/applications &>> $INSTLOG
+    cp -r $SCRIPT_DIR/extras/*.desktop ~/.local/share/applications &>> $INSTLOG
 fi
 
 ### Install the starship shell ###
@@ -238,33 +204,7 @@ if [[ $STAR == "Y" || $STAR == "y" ]]; then
     echo -e "$CNT - Updating .bashrc..."
     echo -e '\neval "$(starship init bash)"' >> ~/.bashrc
     echo -e "$CNT - copying starship config file to ~/.confg ..."
-    cp extras/starship.toml ~/.config/
-fi
-
-### Install the arkenfox settings ###
-read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to install arkenfox? (y,n) ' FIREFOX
-if [[ $FIREFOX == "Y" || $FIREFOX == "y" ]]; then
-    echo ">> launching firefox without gui..."
-    firefox --headless &
-    # store most recently launched programs PID
-    FIREFOX_PID=$!
-    echo ">> sleeping to wait for process..."
-    sleep 5
-    echo ">> downloading arkenfox user.js..."
-    git clone https://github.com/arkenfox/user.js userjs
-    echo ">> installing arkenfox user.js..."
-    FDIR=~/.mozilla/firefox/*default-release*/
-    cp -r userjs/* $FDIR
-    rm -rf userjs
-    echo ">> installing my user overrides..."
-    cp Firefox/user-overrides.js $FDIR
-    echo ">> appending user settings..."
-    $FDIR/updater.sh
-    echo ">> installing my userchrome..."
-    cp -r Firefox/chrome $FDIR
-
-    # kill firefox
-    kill $FIREFOX_PID
+    cp $SCRIPT_DIR/extras/starship.toml ~/.config/
 fi
 
 read -n1 -rep $'[\e[1;33mACTION\e[0m] - Install dev environment(php development)? [y/n] ' response
@@ -272,7 +212,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
     echo -e "\n$CNT - Installing Dev applications, this may take a while..."
     #phpstan removed over gpg key issue
-    for SOFTWR in ctags phpstan fd github-desktop-bin lua-language-server prettier stylua npm ripgrep nodejs-intelephense visual-studio-code-bin mariadb nginx net-tools php php-fpm composer phpmyadmin
+    for SOFTWR in ctags phpstan fd github-desktop-bin lua-language-server prettier stylua npm ripgrep visual-studio-code-bin
     do
         #First lets see if the package is there
         if paru -Qs $SOFTWR > /dev/null ; then
@@ -292,28 +232,29 @@ then
     #python libraries
     sudo pip install pynvim black  &>> $INSTLOG
 
-    #php
-    sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/php.ini  &>> $INSTLOG
-    sudo sed -i 's/^;extension=pdo_mysql/extension=pdo_mysql/' /etc/php/php.ini  &>> $INSTLOG
+    # Not working correcly
+    # #php
+    # sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/php.ini  &>> $INSTLOG
+    # sudo sed -i 's/^;extension=pdo_mysql/extension=pdo_mysql/' /etc/php/php.ini  &>> $INSTLOG
 
-    #php coding libraries
-    wget -O phpcbf.phar https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar  &>> $INSTLOG
-    chmod a+x phpcbf.phar
-    sudo mv phpcbf.phar /usr/local/bin/phpcbf
+    # #php coding libraries
+    # wget -O phpcbf.phar https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar  &>> $INSTLOG
+    # chmod a+x phpcbf.phar
+    # sudo mv phpcbf.phar /usr/local/bin/phpcbf
 
-    sudo cp DevOps/info.php /usr/share/nginx/html/
-    sudo cp DevOps/nginx.conf /etc/nginx/
-    sudo ln -s /usr/share/webapps/phpMyAdmin/ /usr/share/nginx/html/
+    # sudo cp DevOps/info.php /usr/share/nginx/html/
+    # sudo cp DevOps/nginx.conf /etc/nginx/
+    # sudo ln -s /usr/share/webapps/phpMyAdmin/ /usr/share/nginx/html/
     
-    sudo systemctl enable nginx  &>> $INSTLOG
+    # sudo systemctl enable nginx  &>> $INSTLOG
 
-    sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
-    sudo systemctl enable mariadb
-    sudo systemctl start mariadb
-    sudo mysql_secure_installation
+    # sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+    # sudo systemctl enable mariadb
+    # sudo systemctl start mariadb
+    # sudo mysql_secure_installation
 
-    sudo systemctl enable php-fpm
-    sudo systemctl start php-fpm
+    # sudo systemctl enable php-fpm
+    # sudo systemctl start php-fpm
 
 fi
 
