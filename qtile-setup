@@ -88,14 +88,14 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
     #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
-    for SOFTWR in archlinux-keyring alacritty dunst qtile pacman-contrib xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting lxappearance
+    for SOFTWR in archlinux-keyring wget curl smartmontools dunst qtile pacman-contrib openssh xdg-utils xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting iwd wpa_supplicant
     do
            install_software 'pacman' $SOFTWR 
     done
  
     #Stage 2
     echo -e "\n$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
-    for SOFTWR in polkit-gnome python-pip pamixer pavucontrol brightnessctl bluez bluez-utils blueman gvfs thunar-archive-plugin file-roller sddm volumeicon
+    for SOFTWR in alacritty htop polkit-gnome python-pip pamixer pavucontrol brightnessctl bluez bluez-utils blueman gvfs thunar-archive-plugin file-roller sddm volumeicon lxappearance
     do
            install_software 'pacman' $SOFTWR 
     done
@@ -109,7 +109,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 
     #Stage 4
     echo -e "\n$CNT - Stage 4 - Installing extra applications and utilities, this may take a while..."
-    for SOFTWR in exa fzf glava htop sxiv neofetch neovim starship numlockx xclip xfce4-clipman-plugin xfce4-power-manager
+    for SOFTWR in exa htop fzf glava htop sxiv neofetch neovim starship numlockx xclip xfce4-clipman-plugin xfce4-power-manager
     do
            install_software 'pacman' $SOFTWR 
     done
@@ -233,6 +233,7 @@ then
     sudo pip install pynvim black  &>> $INSTLOG
 
     # Not working correcly
+    # LEMP INSTALL
     # #php
     # sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/php.ini  &>> $INSTLOG
     # sudo sed -i 's/^;extension=pdo_mysql/extension=pdo_mysql/' /etc/php/php.ini  &>> $INSTLOG
