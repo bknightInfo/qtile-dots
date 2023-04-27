@@ -88,7 +88,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
     #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
-    for SOFTWR in archlinux-keyring wget curl smartmontools dunst qtile pacman-contrib openssh xdg-utils xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting iwd wpa_supplicant
+    for SOFTWR in archlinux-keyring wget curl smartmontools dunst qtile pacman-contrib xdg-utils xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting iwd wpa_supplicant
     do
            install_software 'pacman' $SOFTWR 
     done
