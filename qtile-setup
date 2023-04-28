@@ -71,6 +71,13 @@ install_software() {
     fi
 }
 
+remove_software() {
+    if $APP -Q $2 &>> /dev/null ; then
+        sudo pacman -Rcns $2 --noconfirm &>> $INSTLOG
+        echo -e "$COK - $2 removed."
+    fi
+}
+
 ### Install all of the above pacakges ####
 read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to install the packages? (y,n) ' INST
 if [[ $INST == "Y" || $INST == "y" ]]; then
@@ -88,7 +95,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
     #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
-    for SOFTWR in archlinux-keyring wget curl smartmontools dunst qtile pacman-contrib xdg-utils xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting iwd wpa_supplicant
+    for SOFTWR in archlinux-keyring xorg-server xorg-xinit wget dunst qtile pacman-contrib xdg-utils xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting iwd wpa_supplicant
     do
            install_software 'pacman' $SOFTWR 
     done
