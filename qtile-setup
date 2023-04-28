@@ -15,6 +15,8 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 SCRIPTS=$HOME/.scripts
 WALLPAPER=$HOME/.wallpaper
 
+#ToDo replace my nvim files with Astronvim
+
 #clear the screen
 clear
 
@@ -95,7 +97,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
     #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
-    for SOFTWR in archlinux-keyring xorg-server xorg-xinit wget dunst qtile pacman-contrib xdg-utils xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting iwd wpa_supplicant
+    for SOFTWR in archlinux-keyring dunst qtile pacman-contrib xdg-utils xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting
     do
            install_software 'pacman' $SOFTWR 
     done
@@ -123,7 +125,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 
     #Stage 5
     echo -e "\n$CNT - Stage 5 - Installing AUR applications, this may take a while..."
-    for SOFTWR in brave-bin rofi fnm-bin picom-jonaburg-fix sddm-sugar-candy-git spotify spicetify-cli ttf-font-icons ttf-comic-mono-git unimatrix-git xmousepasteblock-git xsuspender-git zsh-autocomplete-git
+    for SOFTWR in brave-bin rofi fnm-bin picom-jonaburg-fix sddm-sugar-candy-git spotify spicetify-cli ttf-font-icons ttf-comic-mono-git unimatrix-git xmousepasteblock-git zsh-autocomplete-git
     do
            install_software 'paru' $SOFTWR 
     done
@@ -219,7 +221,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
     echo -e "\n$CNT - Installing Dev applications, this may take a while..."
     #phpstan removed over gpg key issue
-    for SOFTWR in ctags phpstan fd github-desktop-bin lua-language-server prettier stylua npm ripgrep visual-studio-code-bin
+    for SOFTWR in ctags fd github-desktop-bin lua-language-server prettier stylua npm ripgrep visual-studio-code-bin
     do
         #First lets see if the package is there
         if paru -Qs $SOFTWR > /dev/null ; then
