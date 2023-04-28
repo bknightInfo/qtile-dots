@@ -97,7 +97,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
     #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
-    for SOFTWR in archlinux-keyring dunst qtile pacman-contrib xdg-utils xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting
+    for SOFTWR in archlinux-keyring dunst qtile pacman-contrib wget xdg-utils xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting
     do
            install_software 'pacman' $SOFTWR 
     done
@@ -201,7 +201,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     rm -rf decay-spicetify &>> $INSTLOG
 
     #move custom .desktop files for rofi
-    mkdir ~/.local/share/applications
+    mkdir -p ~/.local/share/applications
     cp -r $SCRIPT_DIR/extras/*.desktop ~/.local/share/applications &>> $INSTLOG
 fi
 
