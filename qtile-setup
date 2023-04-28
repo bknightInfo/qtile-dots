@@ -240,6 +240,15 @@ then
     
     #python libraries
     sudo pip install pynvim black  &>> $INSTLOG
+    
+    #phpstan -- currently not wotking in the aur
+    wget https://github.com/phpstan/phpstan/releases/download/1.10.14/phpstan.phar
+    sudo mkdir -p /usr/share/webapps/bin
+    sudo cp phpstan.phar /usr/share/webapps/bin/
+    sudo chmod 755 /usr/share/webapps/bin/phpstan.phar
+    sudo ln -s /usr/share/webapps/bin/phpstan.phar /usr/bin/phpstan
+    rm phpstan.phar
+    
 
     # Not working correcly
     # LEMP INSTALL
