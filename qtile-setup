@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#Designed to be used with Archinstall with the xorg profile option
+
 # set some colors
 CNT="[\e[1;36mNOTE\e[0m]"
 COK="[\e[1;32mOK\e[0m]"
@@ -97,7 +99,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
     #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
-    for SOFTWR in archlinux-keyring dunst qtile pacman-contrib wget xdg-utils xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting
+    for SOFTWR in archlinux-keyring dunst qtile pacman-contrib wget curl xdg-utils xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting
     do
            install_software 'pacman' $SOFTWR 
     done
