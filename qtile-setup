@@ -221,7 +221,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
     echo -e "\n$CNT - Installing Dev applications, this may take a while..."
     #phpstan removed over gpg key issue
-    for SOFTWR in ctags fd github-desktop-bin lua-language-server prettier stylua npm ripgrep visual-studio-code-bin
+    for SOFTWR in ctags fd github-desktop-bin lua-language-server prettier lazygit stylua npm ripgrep visual-studio-code-bin
     do
         #First lets see if the package is there
         if paru -Qs $SOFTWR > /dev/null ; then
