@@ -1,0 +1,18 @@
+cntr e -> treesitter (file Manager)
+
+<leader> \ -- vertical split
+<leader> | -- Hor split
+<leader> gg -- launches lazygit
+<Leader> gt -- all changes
+
+-- coding
+cntl+space --all completions (close with cntl + e)
+K -- preview type
+gT to go to the definition (cntrl + O to go back)
+gI -- go to its implementation
+gO -- sysmbol defination
+gr -- see reference across the project
+<leader>la - code actions
+
+
+f7 - floating terminal

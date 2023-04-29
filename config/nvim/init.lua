@@ -1,27 +1,21 @@
-require("bknightinfo.plugins-setup")
-require("bknightinfo.core.options")
-require("bknightinfo.core.keymaps")
-require("bknightinfo.core.colorscheme")
+for _, source in ipairs {
+  "astronvim.bootstrap",
+  "astronvim.options",
+  "astronvim.lazy",
+  "astronvim.autocmds",
+  "astronvim.mappings",
+} do
+  local status_ok, fault = pcall(require, source)
+  if not status_ok then vim.api.nvim_err_writeln("Failed to load " .. source .. "\n\n" .. fault) end
+end
 
--- plugins
-require("bknightinfo.plugins.alpha")
-require("bknightinfo.plugins.comment")
-require("bknightinfo.plugins.nvim-tree")
-require("bknightinfo.plugins.lualine")
-require("bknightinfo.plugins.telescope")
-require("bknightinfo.plugins.nvim-cmp")
-require("bknightinfo.plugins.autopairs")
-require("bknightinfo.plugins.treesitter")
-require("bknightinfo.plugins.gitsigns")
-require("bknightinfo.plugins.bufferline")
-require("bknightinfo.plugins.indentline")
-require("bknightinfo.plugins.impatient")
-require("bknightinfo.plugins.project")
-require("bknightinfo.plugins.toggleterm")
+if astronvim.default_colorscheme then
+  if not pcall(vim.cmd.colorscheme, astronvim.default_colorscheme) then
+    require("astronvim.utils").notify(
+      "Error setting up colorscheme: " .. astronvim.default_colorscheme,
+      vim.log.levels.ERROR
+    )
+  end
+end
 
---lSP
-require("bknightinfo.plugins.lsp.mason")
-require("bknightinfo.plugins.lsp.lspsaga")
-require("bknightinfo.plugins.lsp.lspconfig")
-require("bknightinfo.plugins.lsp.null-ls")
-require("bknightinfo.plugins.whichkey")
+require("astronvim.utils").conditional_func(astronvim.user_opts("polish", nil, false), true)
