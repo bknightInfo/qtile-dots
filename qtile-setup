@@ -17,18 +17,8 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 SCRIPTS=$HOME/.scripts
 WALLPAPER=$HOME/.wallpaper
 
-#ToDo replace my nvim files with Astronvim
-
 #clear the screen
 clear
-
-read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to continue with the install (y,n) ' INST
-if [[ $INST == "Y" || $INST == "y" ]]; then
-    echo -e "$COK - Starting install script.."
-else
-    echo -e "$CNT - This script would now exit, no changes were made to your system."
-    exit
-fi
 
 #### Check for paru ####
 ISPARU=/sbin/paru
@@ -44,7 +34,7 @@ else
 fi
 
 # function that will test for a package and if not found it will attempt to install it
-# $1 - pacman ,paru or yay
+# $1 - pacman paru or yay
 # $2 - software
 install_software() {
     case $1 in
@@ -97,52 +87,46 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     cp -ri Scripts/* $SCRIPTS &>> $INSTLOG
     cp -ri Wallpaper/* $WALLPAPER &>> $INSTLOG
     
-    #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
     for SOFTWR in archlinux-keyring dunst qtile pacman-contrib wget curl xdg-utils xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting
     do
            install_software 'pacman' $SOFTWR 
     done
  
-    #Stage 2
     echo -e "\n$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
     for SOFTWR in alacritty htop polkit-gnome python-pip pamixer pavucontrol brightnessctl bluez bluez-utils blueman gvfs thunar-archive-plugin file-roller sddm volumeicon lxappearance
     do
            install_software 'pacman' $SOFTWR 
     done
 
-    #Stage 3
     echo -e "\n$CNT - Stage 3 - Installing theme and visual related tools and utilities, this may take a while..."
-    for SOFTWR in capitaine-cursors papirus-icon-theme ttf-firacode-nerd ttf-jetbrains-mono ttf-jetbrains-mono-nerd noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
+    for SOFTWR in capitaine-cursors papirus-icon-theme ttf-firacode-nerd ttf-jetbrains-mono
     do
-           install_software 'pacman' $SOFTWR 
+           install_software 'pacman' $SOFTWR
     done
 
-    #Stage 4
     echo -e "\n$CNT - Stage 4 - Installing extra applications and utilities, this may take a while..."
-    for SOFTWR in exa htop fzf glava htop sxiv neofetch neovim starship numlockx xclip xfce4-clipman-plugin xfce4-power-manager
+    for SOFTWR in exa htop flatpak fzf glava htop sxiv neofetch neovim starship noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra numlockx xclip xfce4-clipman-plugin xfce4-power-manager
     do
            install_software 'pacman' $SOFTWR 
     done
 
-    #Stage 5
     echo -e "\n$CNT - Stage 5 - Installing AUR applications, this may take a while..."
-    for SOFTWR in brave-bin rofi fnm-bin picom-jonaburg-fix sddm-sugar-candy-git spotify spicetify-cli ttf-font-icons ttf-comic-mono-git unimatrix-git xmousepasteblock-git zsh-autocomplete-git
+    for SOFTWR in rofi fnm-bin picom-jonaburg-fix sddm-sugar-candy-git xmousepasteblock-git zsh-autocomplete-git 
     do
-           install_software 'paru' $SOFTWR 
+           install_software 'yay' $SOFTWR 
     done
 
-    # Start the bluetooth service
+    echo -e "\n$CNT - Stage 6 - Installing Misc AUR applications, this may take a while..."
+    for SOFTWR in brave-bin celluloid flameshot makemkv spotify onlyoffice spicetify-cli visual-studio-code-bin zathura zathura-pdf-poppler
+    do
+           install_software 'yay' $SOFTWR 
+    done
+    
+# Start the bluetooth service
     echo -e "$CNT - Starting the Bluetooth Service..."
     sudo systemctl enable --now bluetooth.service &>> $INSTLOG
     sleep 2
-
-    # Enable the sddm login manager service
-    echo -e "$CNT - Enabling the SDDM Service..."
-    sudo systemctl disable lightdm &>> $INSTLOG
-    sudo systemctl enable sddm &>> $INSTLOG
-    sleep 2
-
 fi
 
 ### Copy Config Files ###
@@ -223,7 +207,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
     echo -e "\n$CNT - Installing Dev applications, this may take a while..."
     #phpstan removed over gpg key issue
-    for SOFTWR in ctags fd github-desktop-bin lua-language-server prettier lazygit stylua npm ripgrep visual-studio-code-bin
+    for SOFTWR in ctags fd github-desktop-bin golangci-lint lua-language-server prettier lazygit stylua
     do
         #First lets see if the package is there
         if paru -Qs $SOFTWR > /dev/null ; then
@@ -242,17 +226,17 @@ then
     
     #python libraries
     sudo pip install pynvim black  &>> $INSTLOG
-    
-    #phpstan -- currently not wotking in the aur
-    wget https://github.com/phpstan/phpstan/releases/download/1.10.14/phpstan.phar
-    sudo mkdir -p /usr/share/webapps/bin
-    sudo cp phpstan.phar /usr/share/webapps/bin/
-    sudo chmod 755 /usr/share/webapps/bin/phpstan.phar
-    sudo ln -s /usr/share/webapps/bin/phpstan.phar /usr/bin/phpstan
-    rm phpstan.phar
-    
 
-    # Not working correcly
+    # not used feel free to uncomment
+    # #phpstan -- currently not wotking in the aur
+    # wget https://github.com/phpstan/phpstan/releases/download/1.10.14/phpstan.phar
+    # sudo mkdir -p /usr/share/webapps/bin
+    # sudo cp phpstan.phar /usr/share/webapps/bin/
+    # sudo chmod 755 /usr/share/webapps/bin/phpstan.phar
+    # sudo ln -s /usr/share/webapps/bin/phpstan.phar /usr/bin/phpstan
+    # rm phpstan.phar
+    # 
+
     # LEMP INSTALL
     # #php
     # sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/php.ini  &>> $INSTLOG
@@ -276,8 +260,7 @@ then
 
     # sudo systemctl enable php-fpm
     # sudo systemctl start php-fpm
-
 fi
 
-
-echo "reboot to complete installation"
+echo -e "\n$CNT - to fix MakeMKV to the following. \n1. login as root 'su -l'\n2. run the following command 'echo sg > /etc/modules-load.d/sg.conf'"
+echo -e "\n$CNT - Reboot to finish installation"
