@@ -141,3 +141,4 @@ alias vim="nvim"
 
 #qtile fixes
 alias qupdate='qtile cmd-obj -o widget checkupdates -f eval -a "self.update(self.poll())"'
+alias docs='cd ~/Documents/GitHub/qtile-dots-v2'
