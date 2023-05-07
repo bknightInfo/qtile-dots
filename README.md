@@ -1,2 +1,2 @@
 # qtile-dots-v2
-My Qtile dots with new installed 
+My Qtile dots with new installer
