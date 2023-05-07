@@ -20,16 +20,16 @@ WALLPAPER=$HOME/.wallpaper
 clear
 
 #### Check for paru ####
-ISYAY=/sbin/yay
-if [ -f "$ISYAY" ]; then
-	echo -e "$COK - yay was located, moving on."
+ISYAY=/sbin/paru
+if [ -f "$ISPARU" ]; then
+	echo -e "$COK - Paru was located, moving on."
 else
-	echo -e "$CWR - Yay was NOT located.. yay is (still) required"
-	git clone https://aur.archlinux.org/yay-git.git &>>$INSTLOG
-	cd yay-git
+	echo -e "$CWR - Paru was NOT located"
+	git clone https://aur.archlinux.org/paru-bin &>>$INSTLOG
+	cd paru-bin
 	makepkg -si --noconfirm &>>../$INSTLOG
 	cd $SCRIPT_DIR
-	rm -rf yay-git
+	rm -rf paru-bin
 fi
 
 # function that will test for a package and if not found it will attempt to install it
@@ -108,18 +108,23 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 
 	echo -e "\n$CNT - Stage 5 - Installing AUR applications, this may take a while..."
 	for SOFTWR in rofi fnm-bin picom-jonaburg-fix sddm-sugar-candy-git gtk-engine-murrine xmousepasteblock-git zsh-autocomplete-git; do
-		install_software 'yay' $SOFTWR
+		install_software 'paru' $SOFTWR
 	done
 
 	echo -e "\n$CNT - Stage 6 - Installing Misc AUR applications, this may take a while..."
 	for SOFTWR in brave-bin celluloid flameshot makemkv spotify onlyoffice spicetify-cli visual-studio-code-bin zathura zathura-pdf-poppler; do
-		install_software 'yay' $SOFTWR
+		install_software 'paru' $SOFTWR
 	done
 
 	# Start the bluetooth service
 	echo -e "$CNT - Starting the Bluetooth Service..."
 	sudo systemctl enable --now bluetooth.service &>>$INSTLOG
 	sleep 2
+	
+	# Start the sddm service
+	echo -e "$CNT - Starting the SDDM Service..."
+	sudo systemctl enable sddm &>>$INSTLOG
+	sleep 2	
 fi
 
 ### Copy Config Files ###
@@ -139,18 +144,17 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 	#copy config files
 	cp -R $SCRIPT_DIR/config/* ~/.config/ &>>$INSTLOG
 
-	#setup atronvim config
+	#setup atronvim config -- not working
 	git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
-	git clone --depth 1 https://github.com/bknightInfo/astrovim_files ~/.config/nvim/lua/user
-	cp -R $SCRIPT_DIR/extras/nvim ~/.local/share/ &>>$INSTLOG
+	#git clone --depth 1 https://github.com/bknightInfo/astrovim_files ~/.config/nvim/lua/user
+	#cp -R $SCRIPT_DIR/extras/nvim ~/.local/share/ &>>$INSTLOG
 
 	# installing psutil for qtile widgets
 	sudo pip install psutil &>>$INSTLOG
 
 	# Copy the SDDM theme
-	cd $SCRIPT_DIR
 	echo -e "$CNT - Setting up the login screen."
-	sudo cp -R sdt /usr/share/sddm/themes/
+	sudo cp -R $SCRIPT_DIR/sdt /usr/share/sddm/themes/
 	sudo chown -R $USER:$USER /usr/share/sddm/themes/sdt
 	sudo mkdir /etc/sddm.conf.d
 	echo -e "[Theme]\nCurrent=sdt" | sudo tee -a /etc/sddm.conf.d/10-theme.conf &>>$INSTLOG
@@ -170,7 +174,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 	cp -r ./Themes/Dark-decay ~/.themes
 	cp -r ./Themes/Decayce ~/.themes
 	cd $SCRIPT_DIR
-	rm -rf Tokyo-Night-GTK-Theme
+	rm -rf decay-gtk
 
 	git clone --depth 1 https://github.com/Fausto-Korpsvart/Tokyo-Night-GTK-Theme.git
 	cp -r Tokyo-Night-GTK-Theme/themes/Tokyonight-Dark-B ~/.themes/
@@ -178,6 +182,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 	cp -r Tokyo-Night-GTK-Theme/themes/Tokyonight-Storm-B ~/.themes/
 	rm -rf decay-gtk
 
+	#install spicetify
 	echo ">> installing spicetify..."
 	sudo chmod a+wr /opt/spotify &>>$INSTLOG
 	sudo chmod a+wr /opt/spotify/Apps -R &>>$INSTLOG
@@ -210,21 +215,8 @@ fi
 read -n1 -rep $'[\e[1;33mACTION\e[0m] - Install dev environment(Go,PHP and Python development)? [y/n] ' response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	echo -e "\n$CNT - Installing Dev applications, this may take a while..."
-	#phpstan removed over gpg key issue
-	for SOFTWR in ctags composer fd github-desktop-bin go golangci-lint lua-language-server prettier lazygit stylua php phpactor; do
-		#First lets see if the package is there
-		if paru -Qs $SOFTWR >/dev/null; then
-			echo -e "$COK - $SOFTWR is already installed."
-		else
-			echo -e "$CNT - Now installing $SOFTWR ..."
-			paru -S --noconfirm $SOFTWR &>>$INSTLOG
-			if paru -Qs $SOFTWR >/dev/null; then
-				echo -e "$COK - $SOFTWR was installed."
-			else
-				echo -e "$CER - $SOFTWR install had failed, please check the install.log"
-				exit
-			fi
-		fi
+	for SOFTWR in ctags composer fd github-desktop-bin go golangci-lint lua-language-server prettier lazygit stylua php phpactor npm; do
+		install_software 'paru' $SOFTWR
 	done
 
 	#python libraries
