@@ -144,10 +144,10 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 	#copy config files
 	cp -R $SCRIPT_DIR/config/* ~/.config/ &>>$INSTLOG
 
-	#setup atronvim config -- not working
+	#setup atronvim config
 	git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
-	#git clone --depth 1 https://github.com/bknightInfo/astrovim_files ~/.config/nvim/lua/user
-	#cp -R $SCRIPT_DIR/extras/nvim ~/.local/share/ &>>$INSTLOG
+	git clone --depth 1 https://github.com/bknightInfo/astrovim_files ~/.config/nvim/lua/user
+	cp -R $SCRIPT_DIR/extras/nvim ~/.local/share/ &>>$INSTLOG
 
 	# installing psutil for qtile widgets
 	sudo pip install psutil &>>$INSTLOG
