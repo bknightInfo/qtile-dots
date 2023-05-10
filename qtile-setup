@@ -107,7 +107,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 	done
 
 	echo -e "\n$CNT - Stage 5 - Installing AUR applications, this may take a while..."
-	for SOFTWR in rofi fnm-bin picom-jonaburg-fix sddm-sugar-candy-git gtk-engine-murrine xmousepasteblock-git zsh-autocomplete-git; do
+	for SOFTWR in rofi fnm-bin picom-jonaburg-fix timeshift-bin timeshift-autosnap sddm-sugar-candy-git gtk-engine-murrine xmousepasteblock-git zsh-autocomplete-git; do
 		install_software 'paru' $SOFTWR
 	done
 
@@ -148,6 +148,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 	echo -e "$CNT - Setting up AstroNvim. Warning: Errors will trigger on first launch these can just be ignored"
 	git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
 	git clone --depth 1 https://github.com/bknightInfo/astrovim_files ~/.config/nvim/lua/user
+
 	# installing psutil for qtile widgets
 	sudo pip install psutil &>>$INSTLOG
 
@@ -237,7 +238,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	chmod a+x phpcbf.phar
 	sudo mv phpcbf.phar /usr/local/bin/phpcbf
 
-	#not phpmyadmin not working correctly
+	# not installing phpmyadmin not working correctly
 	# LEMP INSTALL
 	# sudo cp DevOps/info.php /usr/share/nginx/html/
 	# sudo cp DevOps/nginx.conf /etc/nginx/
