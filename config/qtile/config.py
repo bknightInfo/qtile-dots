@@ -57,7 +57,7 @@ float_names = [
 def client_new(client):
     if client_check("firefox", client) or client_check("brave", client):
         client.togroup("2")  # web browsers
-    elif client_check("thunar", client):
+    elif client_check("pcmanfm", client) or client_check("thunar", client):
         client.togroup("3")
     elif client_check("DesktopEditors", client):
         client.togroup("4")
@@ -107,7 +107,7 @@ keys = [
         [mod, "shift"], "f", lazy.spawn("firefox"), desc="launches firefox web browser"
     ),
     Key([mod, "shift"], "b", lazy.spawn("brave"), desc="launches Brave web browser"),
-    Key([mod, "shift"], "t", lazy.spawn("thunar"), desc="launches thunar"),
+    Key([mod, "shift"], "t", lazy.spawn("pcmanfm"), desc="launches pcmanfm"),
     Key([mod, "shift"], "g", lazy.spawn("geany"), desc="launches geany"),
     Key([mod], "g", lazy.spawn("github-desktop"), desc="launches github desktop"),
     # Switch between windows

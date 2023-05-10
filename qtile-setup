@@ -87,12 +87,12 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 	cp -ri Wallpaper/* $WALLPAPER &>>$INSTLOG
 
 	echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
-	for SOFTWR in archlinux-keyring dunst qtile pacman-contrib wget curl xdg-utils xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting; do
+	for SOFTWR in archlinux-keyring dunst qtile pacman-contrib wget curl xdg-utils xdg-user-dirs pcmanfm zsh zsh-completions zsh-syntax-highlighting; do
 		install_software 'pacman' $SOFTWR
 	done
 
 	echo -e "\n$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
-	for SOFTWR in alacritty htop polkit-gnome python-pip pamixer pavucontrol brightnessctl bluez bluez-utils blueman gvfs thunar-archive-plugin file-roller sddm volumeicon lxappearance; do
+	for SOFTWR in alacritty htop polkit-gnome python-pip pamixer pavucontrol brightnessctl bluez bluez-utils blueman gvfs file-roller sddm volumeicon lxappearance; do
 		install_software 'pacman' $SOFTWR
 	done
 
@@ -145,10 +145,9 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 	cp -R $SCRIPT_DIR/config/* ~/.config/ &>>$INSTLOG
 
 	#setup atronvim config
+	echo -e "$CNT - Setting up AstroNvim. Warning: Errors will trigger on first launch these can just be ignored"
 	git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
 	git clone --depth 1 https://github.com/bknightInfo/astrovim_files ~/.config/nvim/lua/user
-	cp -R $SCRIPT_DIR/extras/nvim ~/.local/share/ &>>$INSTLOG
-
 	# installing psutil for qtile widgets
 	sudo pip install psutil &>>$INSTLOG
 
