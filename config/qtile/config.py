@@ -57,11 +57,11 @@ float_names = [
 def client_new(client):
     if client_check("firefox", client) or client_check("brave", client):
         client.togroup("2")  # web browsers
-    elif client_check("pcmanfm", client) or client_check("thunar", client):
+    elif client_check("pcmanfm", client):
         client.togroup("3")
     elif client_check("DesktopEditors", client):
         client.togroup("4")
-    elif client_check("vlc", client):
+    elif client_check("vlc", client) or client_check("celluloid", client):
         client.togroup("5")
     elif client_check("Spotify", client):
         client.togroup("6")
