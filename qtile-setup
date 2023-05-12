@@ -30,6 +30,7 @@ else
 	makepkg -si --noconfirm &>>../$INSTLOG
 	cd $SCRIPT_DIR
 	rm -rf paru-bin
+	echo -e "$COK - Paru installed."
 fi
 
 # function that will test for a package and if not found it will attempt to install it
@@ -87,7 +88,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 	cp -ri Wallpaper/* $WALLPAPER &>>$INSTLOG
 
 	echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
-	for SOFTWR in archlinux-keyring dunst qtile pacman-contrib wget curl xdg-utils xdg-user-dirs pcmanfm zsh zsh-completions zsh-syntax-highlighting; do
+	for SOFTWR in archlinux-keyring dunst duf os-prober qtile pacman-contrib wget curl xdg-utils xdg-user-dirs pcmanfm zsh zsh-completions zsh-syntax-highlighting; do
 		install_software 'pacman' $SOFTWR
 	done
 
@@ -123,7 +124,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 	
 	# Start the sddm service
 	echo -e "$CNT - Starting the SDDM Service..."
-	sudo systemctl enable sddm &>>$INSTLOG
+	sudo systemctl enable sddm -f &>>$INSTLOG
 	sleep 2	
 fi
 
@@ -146,8 +147,8 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 
 	#setup atronvim config
 	echo -e "$CNT - Setting up AstroNvim. Warning: Errors will trigger on first launch these can just be ignored"
-	git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
-	git clone --depth 1 https://github.com/bknightInfo/astrovim_files ~/.config/nvim/lua/user
+	git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim &>>$INSTLOG
+	git clone --depth 1 https://github.com/bknightInfo/astrovim_files ~/.config/nvim/lua/user &>>$INSTLOG
 
 	# installing psutil for qtile widgets
 	sudo pip install psutil &>>$INSTLOG
@@ -201,13 +202,22 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 	cp -r $SCRIPT_DIR/extras/*.desktop ~/.local/share/applications &>>$INSTLOG
 fi
 
+### Install Os Prober ###
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to OS Prober(Only need for dual doat systems)? (y,n) ' OS
+if [[ $OS == "Y" || $OS == "y" ]]; then
+	for SOFTWR in os-prober; do
+		install_software 'pacman' $SOFTWR
+	done
+	#append OS prober
+	sudo sed -i 's/^#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/' /etc/default/grub
+	sudo grub-mkconfig -o /boot/grub/grub.cfg
+fi
+
 ### Install the starship shell ###
 read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to activate the starship shell? (y,n) ' STAR
 if [[ $STAR == "Y" || $STAR == "y" ]]; then
 	# install the starship shell
 	echo -e "$CNT - Hansen Crusher, Engage!"
-	echo -e "$CNT - Updating .bashrc..."
-	echo -e '\neval "$(starship init bash)"' >>~/.bashrc
 	echo -e "$CNT - copying starship config file to ~/.confg ..."
 	cp $SCRIPT_DIR/extras/starship.toml ~/.config/
 fi
@@ -238,7 +248,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	chmod a+x phpcbf.phar
 	sudo mv phpcbf.phar /usr/local/bin/phpcbf
 
-	# not installing phpmyadmin not working correctly
+	# not installing phpmyadmin correctly
 	# LEMP INSTALL
 	# sudo cp DevOps/info.php /usr/share/nginx/html/
 	# sudo cp DevOps/nginx.conf /etc/nginx/
