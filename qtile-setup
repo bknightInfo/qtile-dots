@@ -15,22 +15,51 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 # locations
 SCRIPTS=$HOME/.scripts
 WALLPAPER=$HOME/.wallpaper
+GOFOLD=$HOME/Documents/projects/go
+PHPFOLD=$HOME/Documents/projects/PHP
 
 #clear the screen
 clear
 
-#### Check for paru ####
-ISYAY=/sbin/paru
-if [ -f "$ISPARU" ]; then
-	echo -e "$COK - Paru was located, moving on."
-else
-	echo -e "$CWR - Paru was NOT located"
-	git clone https://aur.archlinux.org/paru-bin &>>$INSTLOG
-	cd paru-bin
-	makepkg -si --noconfirm &>>../$INSTLOG
-	cd $SCRIPT_DIR
-	rm -rf paru-bin
-	echo -e "$COK - Paru installed."
+# Check for AUR helper and install if not found
+ISAUR=$(command -v yay || command -v paru)
+
+if [ -n "$ISAUR" ]; then
+    echo -e "$COK - AUR helper was located, moving on."
+else 
+    echo -e "$CWR - AUR helper was NOT located"
+
+    while true; do
+        read -rp "${CAT} Which AUR helper do you want to use, yay or paru? Enter 'y' or 'p': " choice 
+        case "$choice" in
+            y|Y)
+				echo -e "$CWR - Installing yay from AUR"
+                git clone https://aur.archlinux.org/yay-bin.git &>>$INSTLOG
+                cd yay-bin &>>$INSTLOG
+                makepkg -si --noconfirm &>>$INSTLOG
+				cd $SCRIPT_DIR
+				rm -rf yay-bin &>>$INSTLOG
+				echo -e "$COK - Yay installed."
+				AUR="yay"
+                break
+                ;;
+            p|P)
+                echo -e "$CWR - Installing Paru from AUR"
+                git clone https://aur.archlinux.org/paru-bin.git &>>$INSTLOG
+                cd paru-bin &>>$INSTLOG
+                makepkg -si --noconfirm &>>$INSTLOG
+				cd $SCRIPT_DIR
+				rm -rf paru-bin &>>$INSTLOG
+				echo -e "$COK - Paru installed."
+				AUR="paru"
+                break
+                ;;
+            *)
+				echo -e "$CER - Invalid choice. Please enter 'y' or 'p'\n"
+                continue
+                ;;
+        esac
+    done
 fi
 
 # function that will test for a package and if not found it will attempt to install it
@@ -77,7 +106,7 @@ read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to install the packages? 
 if [[ $INST == "Y" || $INST == "y" ]]; then
 	# update the DB first
 	echo -e "$COK - Updating pacman database..."
-	sudo pacman -Syu --noconfirm &>>$INSTLOG
+	$AUR -Syu --noconfirm --cleanafter &>>$INSTLOG
 
 	# create all directories
 	[ -d $SCRIPTS ] && echo "Directory Exists" || mkdir -p $SCRIPTS &>>$INSTLOG
@@ -109,12 +138,12 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 
 	echo -e "\n$CNT - Stage 5 - Installing AUR applications, this may take a while..."
 	for SOFTWR in rofi fnm-bin picom-jonaburg-fix timeshift-bin timeshift-autosnap sddm-sugar-candy-git gtk-engine-murrine xmousepasteblock-git zsh-autocomplete-git; do
-		install_software 'paru' $SOFTWR
+		install_software $AUR $SOFTWR
 	done
 
 	echo -e "\n$CNT - Stage 6 - Installing Misc AUR applications, this may take a while..."
 	for SOFTWR in brave-bin celluloid flameshot makemkv spotify onlyoffice spicetify-cli visual-studio-code-bin zathura zathura-pdf-poppler; do
-		install_software 'paru' $SOFTWR
+		install_software $AUR $SOFTWR
 	done
 
 	# Start the bluetooth service
@@ -226,7 +255,7 @@ read -n1 -rep $'[\e[1;33mACTION\e[0m] - Install dev environment(Go,PHP and Pytho
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	echo -e "\n$CNT - Installing Dev applications, this may take a while..."
 	for SOFTWR in ctags composer fd github-desktop-bin go golangci-lint lua-language-server prettier lazygit stylua php phpactor npm; do
-		install_software 'paru' $SOFTWR
+		install_software $AUR $SOFTWR
 	done
 
 	#python libraries
@@ -248,6 +277,19 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	chmod a+x phpcbf.phar
 	sudo mv phpcbf.phar /usr/local/bin/phpcbf
 
+	#install laravel
+	composer global require "laravel/installer"
+
+	#Install Mariadb
+	sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+	sudo systemctl enable mariadb
+	sudo systemctl start mariadb
+	sudo mysql_secure_installation  
+
+	#create dev folders
+	[ -d $GOFOLD ] && echo "Directory Exists" || mkdir -p $GOFOLD &>>$INSTLOG
+	[ -d $PHPFOLD ] && echo "Directory Exists" || mkdir -p $PHPFOLD &>>$INSTLOG
+
 	# not installing phpmyadmin correctly
 	# LEMP INSTALL
 	# sudo cp DevOps/info.php /usr/share/nginx/html/
@@ -255,11 +297,6 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	# sudo ln -s /usr/share/webapps/phpMyAdmin/ /usr/share/nginx/html/
 
 	# sudo systemctl enable nginx  &>> $INSTLOG
-
-	# sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
-	# sudo systemctl enable mariadb
-	# sudo systemctl start mariadb
-	# sudo mysql_secure_installation
 
 	# sudo systemctl enable php-fpm
 	# sudo systemctl start php-fpm
