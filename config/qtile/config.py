@@ -107,7 +107,7 @@ keys = [
         [mod, "shift"], "f", lazy.spawn("firefox"), desc="launches firefox web browser"
     ),
     Key([mod, "shift"], "b", lazy.spawn("brave"), desc="launches Brave web browser"),
-    Key([mod, "shift"], "t", lazy.spawn("pcmanfm"), desc="launches pcmanfm"),
+    Key([mod, "shift"], "t", lazy.spawn("thunar"), desc="launches thunar"),
     Key([mod, "shift"], "g", lazy.spawn("geany"), desc="launches geany"),
     Key([mod], "g", lazy.spawn("github-desktop"), desc="launches github desktop"),
     # Switch between windows

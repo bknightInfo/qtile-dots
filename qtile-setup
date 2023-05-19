@@ -117,7 +117,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 	cp -ri Wallpaper/* $WALLPAPER &>>$INSTLOG
 
 	echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
-	for SOFTWR in archlinux-keyring dunst duf os-prober qtile pacman-contrib wget curl xdg-utils xdg-user-dirs pcmanfm zsh zsh-completions zsh-syntax-highlighting; do
+	for SOFTWR in archlinux-keyring dunst duf os-prober qtile pacman-contrib wget curl xdg-utils xdg-user-dirs thunar zsh zsh-completions zsh-syntax-highlighting; do
 		install_software 'pacman' $SOFTWR
 	done
 
@@ -142,7 +142,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 	done
 
 	echo -e "\n$CNT - Stage 6 - Installing Misc AUR applications, this may take a while..."
-	for SOFTWR in brave-bin celluloid flameshot makemkv spotify onlyoffice spicetify-cli visual-studio-code-bin zathura zathura-pdf-poppler; do
+	for SOFTWR in brave-bin celluloid flameshot makemkv spotify libreoffice-fresh spicetify-cli visual-studio-code-bin zathura zathura-pdf-poppler; do
 		install_software $AUR $SOFTWR
 	done
 
@@ -269,13 +269,13 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	sudo ln -s /usr/share/webapps/bin/phpstan.phar /usr/bin/phpstan
 	rm phpstan.phar
 
-	sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/php.ini &>>$INSTLOG
-	sudo sed -i 's/^;extension=pdo_mysql/extension=pdo_mysql/' /etc/php/php.ini &>>$INSTLOG
-
 	#php coding libraries
 	wget -O phpcbf.phar https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar &>>$INSTLOG
 	chmod a+x phpcbf.phar
 	sudo mv phpcbf.phar /usr/local/bin/phpcbf
+
+	sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/php.ini &>>$INSTLOG
+	sudo sed -i 's/^;extension=pdo_mysql/extension=pdo_mysql/' /etc/php/php.ini &>>$INSTLOG
 
 	#install laravel
 	composer global require "laravel/installer"
