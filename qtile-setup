@@ -30,7 +30,7 @@ else
     echo -e "$CWR - AUR helper was NOT located"
 
     while true; do
-        read -rp "${CAT} Which AUR helper do you want to use, yay or paru? Enter 'y' or 'p': " choice 
+        read -rp "$CAT Which AUR helper do you want to use, yay or paru? Enter 'y' or 'p': " choice 
         case "$choice" in
             y|Y)
 				echo -e "$CWR - Installing yay from AUR"
@@ -122,7 +122,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 	done
 
 	echo -e "\n$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
-	for SOFTWR in alacritty htop polkit-gnome python-pip pamixer pavucontrol brightnessctl bluez bluez-utils blueman gvfs file-roller sddm volumeicon lxappearance; do
+	for SOFTWR in alacritty feh htop polkit-gnome python-pip pamixer pavucontrol brightnessctl bluez bluez-utils blueman gvfs file-roller sddm volumeicon lxappearance; do
 		install_software 'pacman' $SOFTWR
 	done
 
@@ -175,7 +175,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 	cp -R $SCRIPT_DIR/config/* ~/.config/ &>>$INSTLOG
 
 	#setup atronvim config
-	echo -e "$CNT - Setting up AstroNvim. Warning: Errors will trigger on first launch these can just be ignored"
+	echo -e "$CNT - Setting up AstroNvim"
 	git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim &>>$INSTLOG
 	git clone --depth 1 https://github.com/bknightInfo/astrovim_files ~/.config/nvim/lua/user &>>$INSTLOG
 
@@ -210,7 +210,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 	cp -r Tokyo-Night-GTK-Theme/themes/Tokyonight-Dark-B ~/.themes/
 	cp -r Tokyo-Night-GTK-Theme/themes/Tokyonight-Moon-B ~/.themes/
 	cp -r Tokyo-Night-GTK-Theme/themes/Tokyonight-Storm-B ~/.themes/
-	rm -rf decay-gtk
+	rm -rf Tokyo-Night-GTK-Theme
 
 	#install spicetify
 	echo ">> installing spicetify..."
@@ -254,7 +254,7 @@ fi
 read -n1 -rep $'[\e[1;33mACTION\e[0m] - Install dev environment(Go,PHP and Python development)? [y/n] ' response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	echo -e "\n$CNT - Installing Dev applications, this may take a while..."
-	for SOFTWR in ctags composer fd github-desktop-bin go golangci-lint lua-language-server prettier lazygit stylua php phpactor npm; do
+	for SOFTWR in ctags composer php82-iconv fd github-desktop-bin go golangci-lint lua-language-server prettier lazygit stylua php phpactor npm; do
 		install_software $AUR $SOFTWR
 	done
 
@@ -276,6 +276,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 
 	sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/php.ini &>>$INSTLOG
 	sudo sed -i 's/^;extension=pdo_mysql/extension=pdo_mysql/' /etc/php/php.ini &>>$INSTLOG
+	sudo sed -i 's/^;extension=iconv/extension=iconv/' /etc/php/php.ini &>>$INSTLOG
 
 	#install laravel
 	composer global require "laravel/installer"
